@@ -1,2 +1,2 @@
-# FoodPande
+# FoodPanda
 
