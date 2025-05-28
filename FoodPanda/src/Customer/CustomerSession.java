@@ -3,15 +3,15 @@ package Customer;
 public class CustomerSession {
     private static String email;
 
-    public static void  SetEmail(String email) {
+    public static void  setEmail(String email) {
         CustomerSession.email = email;
     }
 
-    public static String GetEmail() {
+    public static String getEmail() {
         return email;
     }
 
-    public static void ClearSession() {
+    public static void clearSession() {
         email = null;
     }
 
