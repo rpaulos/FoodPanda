@@ -3,6 +3,7 @@ package Business.Class;
 import java.io.IOException;
 
 import Business.BusinessDatabaseHandler;
+import Business.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,15 +35,7 @@ public class BusinessSignInController {
 
     @FXML
     public void toReturnToSignIntHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Business/FXML/BusinessLogin.fxml"));
-
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessLogin.fxml");
     }
 
     @FXML
@@ -53,14 +46,7 @@ public class BusinessSignInController {
         if (BusinessDatabaseHandler.validateBusinessOwnerLogin(oemail, opassword)) {
             System.out.println("Login successful!");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Business/FXML/BusinessSignUp.fxml")); // update path if needed
-
-            root = loader.load();
-
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root, 340, 740);
-            stage.setScene(scene);
-            stage.show();
+            SwitchScene.switchScene(event, "/Business/FXML/BusinessSignUp.fxml");
         } else {
             System.out.println("Login failed! Invalid email or password.");
         }

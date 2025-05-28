@@ -2,6 +2,7 @@ package Business.Class;
 
 import java.io.IOException;
 
+import Business.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,28 +29,12 @@ public class BusinessLoginController {
 
    @FXML
     public void toSignInWithEmailHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Business/FXML/BusinessSignIn.fxml"));
-
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessSignIn.fxml");
     }
 
     @FXML
     public void toSignUpnWithEmailHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Business/FXML/BusinessSignUp.fxml"));
-
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessSignUp.fxml");
     }
 }
 
