@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 
+import Customer.SwitchScene;
+
 public class LoginController {
 
     @FXML
@@ -37,27 +39,14 @@ public class LoginController {
 
     @FXML
     public void toSignUpPageHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/SignUp.fxml"));
-
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        SwitchScene.switchScene(event, "/Customer/FXML/SignUp.fxml");
 
     }
 
     @FXML
     void toStartUpPageHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/StartUp.fxml"));
+        SwitchScene.switchScene(event, "/Customer/FXML/StartUp.fxml");
 
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
@@ -68,14 +57,8 @@ public class LoginController {
 
         if (CustomerDatabaseHandler.validateLoginCredentials(email, password)) {
             System.out.println("Succesful");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/Home.fxml"));
-
-                root = loader.load();
-
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+                SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
+            // Set the email in the CustomerSession for later use
         } else {
             System.out.println("Unsuccesful");
         }

@@ -17,6 +17,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import Customer.SwitchScene;
+
 public class SignUpController {
 
     private Stage stage;
@@ -55,29 +57,11 @@ public class SignUpController {
             "University of Santo Tomas",
             "Centro Escolar University"
         );
-}
-    private void switchScene(ActionEvent event, String fxmlFile) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-        Parent root = loader.load();
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void toStartUpPageHandler(ActionEvent event) throws IOException{
-        switchScene(event, "/Customer/FXML/StartUp.fxml");
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUp.fxml"));
-
-        // root = loader.load();
-
-        // stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // scene = new Scene(root);
-        // stage.setScene(scene);
-        // stage.show();
-
+        SwitchScene.switchScene(event, "/Customer/FXML/StartUp.fxml");
     }
 
     @FXML
@@ -133,6 +117,6 @@ public class SignUpController {
         // TODO: Pop up message for account created
 
         // Go back to startup page
-        switchScene(event, "/Customer/FXML/StartUp.fxml");
+        SwitchScene.switchScene(event, "/Customer/FXML/StartUp.fxml");
     }
 }

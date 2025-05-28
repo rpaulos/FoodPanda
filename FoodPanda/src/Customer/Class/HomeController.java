@@ -16,6 +16,8 @@ import javafx.scene.Scene;
 
 import javafx.scene.image.Image;
 
+import Customer.SwitchScene;
+
 public class HomeController {
 
     @FXML
@@ -37,15 +39,7 @@ public class HomeController {
 
     @FXML
     public void toProfilePageHandler(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/Profile.fxml"));
-
-        root = loader.load();
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
+        SwitchScene.switchScene(event, "/Customer/FXML/Profile.fxml");
     }
 
     // Change this so that it dynamically gets restaurant details from the database

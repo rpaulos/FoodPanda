@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import java.io.IOException;
 
+import Customer.SwitchScene;
+
 public class LandingPageController {
 
     @FXML
@@ -15,16 +17,6 @@ public class LandingPageController {
 
     @FXML
     private Button btn_ubExpressB;
-
-    // private void switchScene(ActionEvent event, String fxmlFile) throws IOException {
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-    //     Parent root = loader.load();
-
-    //     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    //     Scene scene = new Scene(root);
-    //     stage.setScene(scene);
-    //     stage.show();
-    // }
 
     @FXML
     private void handleCustomerButton(ActionEvent event) throws IOException {
