@@ -1,6 +1,8 @@
 package Customer.Class;
 
 import Customer.CustomerDatabaseHandler;
+import Customer.CustomerSession;
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -56,9 +58,13 @@ public class LoginController {
         String password = pf_password.getText();
 
         if (CustomerDatabaseHandler.validateLoginCredentials(email, password)) {
+            // Pop up message for successful login
             System.out.println("Succesful");
-                SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
-            // Set the email in the CustomerSession for later use
+
+            // Store email in CustomerSession
+            CustomerSession.SetEmail(email);
+
+            SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
         } else {
             System.out.println("Unsuccesful");
         }
