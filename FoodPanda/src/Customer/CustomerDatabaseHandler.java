@@ -208,4 +208,48 @@ public class CustomerDatabaseHandler {
         }
     }
 
+    public static String getFirstName(String email) {
+        getInstance();
+
+        String query = "SELECT customer_first_name FROM customer WHERE customer_email = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_first_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting first name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getLastName(String email) {
+        getInstance();
+
+        String query = "SELECT customer_last_name FROM customer WHERE customer_email = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_last_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting last name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
