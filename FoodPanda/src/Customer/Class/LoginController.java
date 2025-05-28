@@ -62,7 +62,7 @@ public class LoginController {
             System.out.println("Succesful");
 
             // Store email in CustomerSession
-            CustomerSession.SetEmail(email);
+            CustomerSession.setEmail(email);
 
             SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
         } else {
