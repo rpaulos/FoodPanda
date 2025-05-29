@@ -22,9 +22,9 @@
             </Label>
             <AnchorPane layoutX="23.2" layoutY="17.599999999999998" prefHeight="148.0" prefWidth="277.0" style="-fx-background-color: efbb20; -fx-background-radius: 13 13 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="148.0" fitWidth="277.0" layoutX="-2.2" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <ImageView fx:id="img_header" fitHeight="151.0" fitWidth="329.0" layoutX="-2.2" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <image>
-                        <Image url="@../../../../../image%2031.png" />
+                        <Image url="@../../User%20Interface/Restaurant%20Header/Jollibee%20Legarda%20Bustillos.png" />
                      </image>
                   </ImageView>
                </children>
