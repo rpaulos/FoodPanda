@@ -1,5 +1,6 @@
 package Customer.Class;
 
+import Customer.CustomerDatabaseHandler;
 import java.io.IOException;
 import java.util.List;
 
@@ -82,14 +83,35 @@ public class HomeController {
         int col = 0;
         int row = 0;
 
+        // try {
+        //     // For every
+        //     for (FoodItem food : foodList) {
+        //         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/Card.fxml"));
+        //         AnchorPane card = fxmlLoader.load();
+
+        //         CardController controller = fxmlLoader.getController();
+        //         controller.setData(food.getName(), food.getPrice(), food.getRestaurant());
+
+        //         cardGrid.add(card, col, row);
+        //         col++;
+        //         if (col == columns) {
+        //             col = 0;
+        //             row++;
+        //         }
+        //     }
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+
         try {
-            // For every
-            for (FoodItem food : foodList) {
+            List<RestaurantItem> restaurantList = CustomerDatabaseHandler.getRestaurantItems();
+
+            for (RestaurantItem restaurant : restaurantList) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/Card.fxml"));
                 AnchorPane card = fxmlLoader.load();
 
                 CardController controller = fxmlLoader.getController();
-                controller.setData(food.getName(), food.getPrice(), food.getRestaurant());
+                controller.setData(restaurant.getName(), restaurant.getAddress());
 
                 cardGrid.add(card, col, row);
                 col++;
@@ -98,6 +120,7 @@ public class HomeController {
                     row++;
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

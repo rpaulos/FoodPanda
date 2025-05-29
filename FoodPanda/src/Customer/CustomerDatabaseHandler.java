@@ -3,6 +3,11 @@ package Customer;
 import Database.DatabaseCredentials;
 import java.sql.*;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+
+import Customer.Class.RestaurantItem;
+import Customer.Class.RestaurantsItem;
 
 public class CustomerDatabaseHandler {
     private static CustomerDatabaseHandler handler = null;
@@ -250,6 +255,30 @@ public class CustomerDatabaseHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<RestaurantItem> getRestaurantItems() {
+        List<RestaurantItem> restaurantItems = new ArrayList<>();
+
+        String query = "SELECT r.restaurant_name, l.street " +
+                       "FROM Restaurant r " +
+                       "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID";
+
+        try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String name = rs.getString("restaurant_name");
+                String street = rs.getString("street");
+                restaurantItems.add(new RestaurantItem(name, street));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return restaurantItems;
     }
 
 }

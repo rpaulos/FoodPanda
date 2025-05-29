@@ -30,7 +30,7 @@
             <Button layoutX="7.0" layoutY="12.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;" />
             <TextField layoutX="60.0" layoutY="77.0" prefHeight="26.0" prefWidth="244.0" promptText="What are you craving?" style="-fx-background-color: transparent;" />
             <ComboBox layoutX="217.0" layoutY="254.0" prefHeight="25.0" prefWidth="110.0" promptText="Price Range" style="-fx-background-color: F8BF00; -fx-background-radius: 5 13 5 5;" />
-            <ComboBox layoutX="67.0" layoutY="254.0" prefHeight="25.0" prefWidth="146.0" promptText="School" style="-fx-background-color: #F8BF00;" />
+            <ComboBox layoutX="10.0" layoutY="254.0" prefHeight="26.0" prefWidth="203.0" promptText="School" style="-fx-background-color: #F8BF00; -fx-background-radius: 13 5 5 5;" />
             <Label layoutX="40.0" layoutY="24.0" text="LOCATION" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -38,7 +38,7 @@
             </Label>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="285.0" prefHeight="395.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <content>
-                  <GridPane fx:id="cardGrid" alignment="TOP_CENTER" hgap="10.0" prefHeight="394.0" prefWidth="338.0" style="-fx-background-color: #ffffff; -fx-alignment: center;" vgap="10.0">
+                  <GridPane fx:id="cardGrid" alignment="TOP_CENTER" hgap="3.0" prefHeight="394.0" prefWidth="338.0" style="-fx-background-color: #ffffff; -fx-alignment: center;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="100.0" />
