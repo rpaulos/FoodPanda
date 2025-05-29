@@ -111,7 +111,7 @@ public class HomeController {
                 AnchorPane card = fxmlLoader.load();
 
                 CardController controller = fxmlLoader.getController();
-                controller.setData(restaurant.getName(), restaurant.getAddress());
+                controller.setData(restaurant.getName(), restaurant.getAddress(), restaurant.getHeaderPath());
 
                 cardGrid.add(card, col, row);
                 col++;

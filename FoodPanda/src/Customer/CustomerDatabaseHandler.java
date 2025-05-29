@@ -260,7 +260,7 @@ public class CustomerDatabaseHandler {
     public static List<RestaurantItem> getRestaurantItems() {
         List<RestaurantItem> restaurantItems = new ArrayList<>();
 
-        String query = "SELECT r.restaurant_name, l.street " +
+        String query = "SELECT r.restaurant_name, r.restaurant_header_path, l.street " +
                        "FROM Restaurant r " +
                        "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID";
 
@@ -270,8 +270,9 @@ public class CustomerDatabaseHandler {
 
             while (rs.next()) {
                 String name = rs.getString("restaurant_name");
+                String headerPath = rs.getString("restaurant_header_path");
                 String street = rs.getString("street");
-                restaurantItems.add(new RestaurantItem(name, street));
+                restaurantItems.add(new RestaurantItem(name, street, headerPath));
             }
 
         } catch (SQLException e) {
