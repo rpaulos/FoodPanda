@@ -24,7 +24,7 @@
                <children>
                   <ImageView fx:id="img_header" fitHeight="151.0" fitWidth="329.0" layoutX="-2.2" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <image>
-                        <Image url="@../../User%20Interface/Restaurant%20Header/Jollibee%20Legarda%20Bustillos.png" />
+                        <Image url="@../../User%20Interface/Restaurant%20Header/default.png" />
                      </image>
                   </ImageView>
                </children>
