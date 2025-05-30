@@ -227,9 +227,44 @@ VALUES
 	('RS008', 'RL007', 'Greenwich Morayta'),
 	('RS009', 'RL009', 'Pares Retiro Earnshaw'),
 	('RS010', 'RL010', 'Samgyupsalamat Tolentino');
+    
+SELECT * FROM restaurant;
 
+ALTER TABLE restaurant ADD restaurant_header_path VARCHAR(300);
 
+UPDATE restaurant
+SET restaurant_header_path = CASE restaurant_name
+    WHEN 'Jollibee Legarda Bustillos' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Jollibee Legarda Bustillos.png'
+    WHEN 'Mang Inasal Lacson' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Mang Inasal Lacson.png'
+    WHEN 'Chowking Lacson' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Chowking Lacson.png'
+    WHEN 'Jollibee Dapitan' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Jollibee Dapitan.png'
+    WHEN 'Tapa King P. Noval' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Tapa King P. Noval.png'
+    WHEN 'Angel’s Burger Lerma' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Angel’s Burger Lerma.png'
+    WHEN 'McDonald’s Recto' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\McDonald’s Recto.png'
+    WHEN 'Greenwich Morayta' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Greenwich Morayta.png'
+    WHEN 'Pares Retiro Earnshaw' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Pares Retiro Earnshaw.png'
+    WHEN 'Samgyupsalamat Tolentino' THEN 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Samgyupsalamat Tolentino.png'
+    ELSE restaurant_header_path
+END
+WHERE restaurant_name IN (
+    'Jollibee Legarda Bustillos',
+    'Mang Inasal Lacson',
+    'Chowking Lacson',
+    'Jollibee Dapitan',
+    'Tapa King P. Noval',
+    'Angel’s Burger Lerma',
+    'McDonald’s Recto',
+    'Greenwich Morayta',
+    'Pares Retiro Earnshaw',
+    'Samgyupsalamat Tolentino'
+);
 
+INSERT INTO restaurant (restaurant_ID, restaurant_location_ID, restaurant_name, restaurant_header_path)
+VALUES
+	('RS011', 'RL002', 'Super Daddy Milktea Jhocson', 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\Super Daddy Milktea Jhocson.png');
+
+DELETE FROM restaurant
+WHERE restaurant_ID = 'RS011';
     
 
 
