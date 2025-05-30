@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-
 import javafx.scene.image.Image;
+import java.util.Collections;
 
 import Customer.SwitchScene;
 
@@ -105,6 +105,7 @@ public class HomeController {
 
         try {
             List<RestaurantItem> restaurantList = CustomerDatabaseHandler.getRestaurantItems();
+            Collections.shuffle(restaurantList);
 
             for (RestaurantItem restaurant : restaurantList) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/Card.fxml"));
