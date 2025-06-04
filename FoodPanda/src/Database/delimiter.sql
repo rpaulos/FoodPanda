@@ -106,5 +106,7 @@ END $$
 
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS set_restaurant_header_path;
+
 SHOW TRIGGERS;
 
