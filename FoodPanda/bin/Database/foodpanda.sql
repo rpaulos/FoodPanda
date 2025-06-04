@@ -12,10 +12,14 @@ CREATE TABLE admins (
     admin_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+SELECT * FROM admins;
+
 CREATE TABLE price_range (
 	price_Range_ID VARCHAR(15) PRIMARY KEY,
     price_range_level VARCHAR(20) NOT NULL
 );
+
+SELECT * FROM price_range;
 
 -- creates the table for storing location of customers (no dependecies)
 CREATE TABLE customer_location (
@@ -25,6 +29,8 @@ CREATE TABLE customer_location (
     zip_code VARCHAR(4) NOT NULL
 );
 
+SELECT * FROM customer_location;
+
 -- creates the table for storing location of restaurants (no dependecies)
 CREATE TABLE restaurant_location (
 	restaurant_location_ID VARCHAR(15) PRIMARY KEY,
@@ -33,12 +39,15 @@ CREATE TABLE restaurant_location (
     zip_code VARCHAR(4) NOT NULL
 );
 
+SELECT * FROM restaurant_location;
+
 -- creates restaurant table (depends on restaurant_location)
 CREATE TABLE restaurant (
 	restaurant_ID VARCHAR(15) PRIMARY KEY,
     restaurant_location_ID VARCHAR(15) NOT NULL,
     restaurant_name VARCHAR(100) NOT NULL,
     price_range_ID VARCHAR(15),
+    restaurant_header_path VARCHAR(500),
     
     FOREIGN KEY (restaurant_location_ID) 
     REFERENCES restaurant_location(restaurant_location_ID)
@@ -47,6 +56,8 @@ CREATE TABLE restaurant (
     FOREIGN KEY (price_range_ID)
     REFERENCES price_range(price_range_ID)
 );
+
+SELECT * FROM restaurant;
 
 CREATE TABLE product (
 	product_ID VARCHAR(15) PRIMARY KEY,
@@ -61,12 +72,15 @@ CREATE TABLE product (
     ON DELETE CASCADE
 );
 
+SELECT * FROM product;
+
 -- creates customer table
 CREATE TABLE customer (
 	customer_ID VARCHAR(15) PRIMARY KEY,
     customer_location_ID VARCHAR(15) NOT NULL,
     customer_phone_number VARCHAR(11) UNIQUE NOT NULL,
     customer_email VARCHAR(100) UNIQUE NOT NULL,
+    customer_password VARCHAR(50) NOT NULL,
     customer_first_name VARCHAR(30) NOT NULL,
     customer_last_name VARCHAR(30) NOT NULL,
     customer_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -75,6 +89,8 @@ CREATE TABLE customer (
     REFERENCES customer_location(customer_location_ID)
     ON DELETE CASCADE
 );
+
+SELECT * FROM customer;
 
 -- creates business_owner table (tristan 05/26/2025)
 CREATE TABLE business_owner (
@@ -89,6 +105,8 @@ CREATE TABLE business_owner (
     ON DELETE CASCADE
 );
 
+SELECT * FROM business_owner;
+
 -- creates wallet with foreign key to who owns it
 CREATE TABLE pandapay_wallet (
 	customer_ID VARCHAR(15) PRIMARY KEY,
@@ -99,6 +117,8 @@ CREATE TABLE pandapay_wallet (
     ON DELETE CASCADE
 );
 
+SELECT * FROM pandapay_wallet;
+
 -- creates wallet with foreign key to who owns it
 CREATE TABLE business_owner_pandapay_wallet (
 	business_owner_ID VARCHAR(15) PRIMARY KEY,
@@ -108,3 +128,7 @@ CREATE TABLE business_owner_pandapay_wallet (
     REFERENCES business_owner(business_owner_ID)
     ON DELETE CASCADE
 );
+
+SELECT * FROM business_owner_pandapay_wallet;
+
+DROP DATABASE foodpanda;

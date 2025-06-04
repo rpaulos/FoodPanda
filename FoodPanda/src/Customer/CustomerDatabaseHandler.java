@@ -10,6 +10,8 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
+
 import Customer.Class.ProductCardController;
 import Customer.Class.ProductItem;
 import Customer.Class.RestaurantItem;
@@ -177,6 +179,64 @@ public class CustomerDatabaseHandler {
         return null;
     }
 
+    // Customer Location ID generator
+    public static String generateCustomerLocationID(String address, String city, String zip) {
+        getInstance();
+
+        String cityCode = city.trim().toUpperCase().replaceAll("\\s+", "").substring(0, 3);
+        String prefix = cityCode + "_";
+
+        String query = "SELECT customer_location_ID FROM customer_location WHERE customer_location_ID LIKE ? ORDER BY customer_location_ID DESC LIMIT 1";
+
+        try(Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, prefix + "%");
+            ResultSet result = pstmt.executeQuery();
+
+            int nextNumber = 1;
+
+            if (result.next()) {
+                String lastID = result.getString("customer_location_ID");
+                String[] parts = lastID.split("_");
+                if (parts.length == 2) {
+                    nextNumber = Integer.parseInt(parts[1]) + 1;
+                }
+            }
+
+            return String.format("%s%05d", prefix, nextNumber);
+
+        } catch (SQLException e) {
+            System.out.println("Error getting customer ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Insert customer location ID
+    public static boolean insertCustomerLocation(String customerLocationID, String city, String address, String ZIP) {
+        getInstance();
+
+        String query = "INSERT INTO customer_location (customer_location_ID, city, address, zip_code) VALUES (?, ?, ?, ?)";
+
+        try(Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerLocationID);
+            pstmt.setString(2, city);
+            pstmt.setString(3, address);
+            pstmt.setString(4, ZIP);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error inserting customer location: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Generate the customer ID based on the school the customer is enrolled
     public static String getUniversityID(String selectedSchool) {
         return switch (selectedSchool) {
@@ -189,13 +249,13 @@ public class CustomerDatabaseHandler {
     }
 
     // Create the account
-    public static boolean insertCustomer(String email, String password, String firstName, String lastName, String phoneNumber, String selectedSchool) {
+    public static boolean insertCustomer(String email, String password, String firstName, String lastName, String phoneNumber, String selectedCity) {
         getInstance();
 
         String customerID = generateCustomerID();
-        String universityID = getUniversityID(selectedSchool);
+        //String universityID = getUniversityID(selectedSchool);
 
-        String query = "INSERT INTO customer (customer_id, customer_email, customer_password, customer_first_name, customer_last_name, customer_phone_number, university_id) " +
+        String query = "INSERT INTO customer (customer_id, customer_email, customer_password, customer_first_name, customer_last_name, customer_phone_number, customer_location_ID) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getDBConnection();
@@ -207,7 +267,7 @@ public class CustomerDatabaseHandler {
             pstmt.setString(4, firstName);
             pstmt.setString(5, lastName);
             pstmt.setString(6, phoneNumber);
-            pstmt.setString(7, universityID);
+            pstmt.setString(7, selectedCity);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
@@ -266,7 +326,7 @@ public class CustomerDatabaseHandler {
     public static List<RestaurantItem> getRestaurantItems() {
         List<RestaurantItem> restaurantItems = new ArrayList<>();
 
-        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.street " +
+        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.address " +
                        "FROM Restaurant r " +
                        "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID";
 
