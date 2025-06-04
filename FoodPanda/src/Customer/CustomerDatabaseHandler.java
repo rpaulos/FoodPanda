@@ -338,8 +338,8 @@ public class CustomerDatabaseHandler {
                 String id = rs.getString("restaurant_ID");
                 String name = rs.getString("restaurant_name");
                 String headerPath = rs.getString("restaurant_header_path");
-                String street = rs.getString("street");
-                restaurantItems.add(new RestaurantItem(name, street, headerPath, id));
+                String address = rs.getString("address");
+                restaurantItems.add(new RestaurantItem(name, address, headerPath, id));
             }
 
         } catch (SQLException e) {

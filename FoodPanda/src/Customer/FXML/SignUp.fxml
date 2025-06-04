@@ -34,7 +34,7 @@
                   <Font size="11.0" />
                </font>
             </TextField>
-            <TextField fx:id="tf_phoneNumber" layoutX="16.0" layoutY="408.0" prefHeight="34.0" prefWidth="302.0" promptText="0912 345 6789" style="-fx-background-color: Transparent;">
+            <TextField fx:id="tf_phoneNumber" layoutX="16.0" layoutY="409.0" prefHeight="34.0" prefWidth="302.0" promptText="0912 345 6789" style="-fx-background-color: Transparent;">
                <font>
                   <Font size="11.0" />
                </font>
