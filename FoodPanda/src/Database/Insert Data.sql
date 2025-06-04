@@ -31,5 +31,13 @@ SET restaurant_header_path = CONCAT(
 WHERE restaurant_ID IN (
     'R_RLMAN_00001_001',
     'R_RLMAN_00002_001',
-    'R_RLMAN_00003_001'
+    'R_RLMAN_00003_001',
+    'R_RLMAN_00005_001'
 );
+
+DELETE FROM restaurant
+WHERE restaurant_ID = 'R_RLMAN_00005_001';
+
+DELETE FROM restaurant_location
+WHERE restaurant_location_ID = "RLMAN_00005";
+
