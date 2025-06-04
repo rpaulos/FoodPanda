@@ -5,7 +5,7 @@ public class DatabaseCredentials {
          * depending on the location of the database on your machine
          * and the username and password of the MySQL user
          */
-        public static String ignoreDburl = "jdbc:mysql://localhost:3306/ubeltexpress";
+        public static String ignoreDburl = "jdbc:mysql://localhost:3306/foodpanda";
         public static String ignoreUserName = "root";
         public static String ignorePassword = "123";
 }

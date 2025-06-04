@@ -82,7 +82,7 @@ public class SignUpController {
         }
 
         // Email domain validation
-        if (!email.matches("^[\\w.-]+@students\\.(national-u\\.edu\\.ph|ust\\.edu\\.ph|feu\\.edu\\.ph|ceu\\.edu\\.ph)$")) {
+        if (!email.matches("^[\\w.-]+@gmail\\.com")) {
             System.out.println("Invalid Email");
             return;
         }

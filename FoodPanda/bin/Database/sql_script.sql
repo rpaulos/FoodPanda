@@ -266,6 +266,36 @@ VALUES
 DELETE FROM restaurant
 WHERE restaurant_ID = 'RS011';
     
+ALTER TABLE product
+ADD COLUMN product_description VARCHAR(500);
+
+ALTER TABLE product
+ADD COLUMN product_image_path VARCHAR(300);
+
+SELECT * FROM product;
+
+UPDATE product
+SET product_description = 'Burger steak with flavorful mushroom gravy and rice.',
+    product_image_path = 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Products\\Jollibee\\Burger Steak.png'
+WHERE product_ID = 'P00001';
+
+UPDATE product
+SET product_description = 'Sweet-style Filipino spaghetti topped with cheese and hotdog slices.',
+    product_image_path = 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Products\\Jollibee\\Jollispaghetti.png'
+WHERE product_ID = 'P00002';
+
+UPDATE product
+SET product_description = 'Crispy fried chicken with rice and gravy.',
+    product_image_path = 'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Products\\Jollibee\\1pc Chickenjoy.png'
+WHERE product_ID = 'P00003';
+
+SELECT * FROM customer;
+
+DELETE FROM restaurant
+WHERE restaurant_ID = "RS010";
+
+DELETE FROM restaurant
+WHERE restaurant_ID = "RS010";
 
 
     

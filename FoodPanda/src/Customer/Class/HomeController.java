@@ -83,26 +83,6 @@ public class HomeController {
         int col = 0;
         int row = 0;
 
-        // try {
-        //     // For every
-        //     for (FoodItem food : foodList) {
-        //         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/Card.fxml"));
-        //         AnchorPane card = fxmlLoader.load();
-
-        //         CardController controller = fxmlLoader.getController();
-        //         controller.setData(food.getName(), food.getPrice(), food.getRestaurant());
-
-        //         cardGrid.add(card, col, row);
-        //         col++;
-        //         if (col == columns) {
-        //             col = 0;
-        //             row++;
-        //         }
-        //     }
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
-
         try {
             List<RestaurantItem> restaurantList = CustomerDatabaseHandler.getRestaurantItems();
             Collections.shuffle(restaurantList);
@@ -112,7 +92,7 @@ public class HomeController {
                 AnchorPane card = fxmlLoader.load();
 
                 CardController controller = fxmlLoader.getController();
-                controller.setData(restaurant.getName(), restaurant.getAddress(), restaurant.getHeaderPath());
+                controller.setData(restaurant.getName(), restaurant.getAddress(), restaurant.getHeaderPath(), restaurant.getRestaurantID());
 
                 cardGrid.add(card, col, row);
                 col++;

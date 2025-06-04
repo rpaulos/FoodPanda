@@ -1,11 +1,17 @@
 package Customer;
 
 import Database.DatabaseCredentials;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
+import java.io.IOException;
 import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import Customer.Class.ProductCardController;
+import Customer.Class.ProductItem;
 import Customer.Class.RestaurantItem;
 import Customer.Class.RestaurantsItem;
 
@@ -260,7 +266,7 @@ public class CustomerDatabaseHandler {
     public static List<RestaurantItem> getRestaurantItems() {
         List<RestaurantItem> restaurantItems = new ArrayList<>();
 
-        String query = "SELECT r.restaurant_name, r.restaurant_header_path, l.street " +
+        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.street " +
                        "FROM Restaurant r " +
                        "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID";
 
@@ -269,10 +275,11 @@ public class CustomerDatabaseHandler {
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
+                String id = rs.getString("restaurant_ID");
                 String name = rs.getString("restaurant_name");
                 String headerPath = rs.getString("restaurant_header_path");
                 String street = rs.getString("street");
-                restaurantItems.add(new RestaurantItem(name, street, headerPath));
+                restaurantItems.add(new RestaurantItem(name, street, headerPath, id));
             }
 
         } catch (SQLException e) {
@@ -281,5 +288,74 @@ public class CustomerDatabaseHandler {
 
         return restaurantItems;
     }
+
+    // public void loadProductsByRestaurant(String restaurantID) {
+    //     // This method can be used to load products for a specific restaurant
+    //     // Implementation can be added based on the requirements
+
+    //     String query = "SELECT name, price, description, image_path " +
+    //                    "FROM Product WHERE restaurant_id = ?";
+
+    //    try (Connection conn = getDBConnection();
+    //         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+
+    //         stmt.setInt(1, restaurantId);
+    //         ResultSet rs = stmt.executeQuery();
+
+    //         while (rs.next()) {
+    //             String name = rs.getString("name");
+    //             String price = rs.getString("price");
+    //             String description = rs.getString("description");
+    //             String imagePath = rs.getString("image_path");
+
+    //             ProductItem product = new ProductItem(name, price, description, imagePath);
+
+    //             // Load FXML
+    //             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
+    //             Parent productCard = loader.load();
+
+    //             // Get controller and pass data
+    //             ProductCardController controller = loader.getController();
+    //             controller.setData(product.getName(), product.getPrice(), product.getDescription(), product.getImagePath());
+
+    //             // Add to FlowPane
+    //             productFlowPane.getChildren().add(productCard);
+    //         }
+
+    //     } catch (SQLException | IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+
+    // public static List<ProductItem> getProductsByRestaurant() {
+    //     List<ProductItem> productItems = new ArrayList<>();
+
+    //     String query = "SELECT p.product_name, p.product_price, p.product_description, p.product_image_path " +
+    //                    "FROM Product p " +
+    //                    "JOIN Restaurant r ON p.restaurant_id = r.restaurant_id " +
+    //                    "WHERE r.restaurant_name = ?";
+
+    //     try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+    //          PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+    //         pstmt.setString(1, "RestaurantName"); // Replace with actual restaurant name
+    //         ResultSet rs = pstmt.executeQuery();
+
+    //         while (rs.next()) {
+    //             String name = rs.getString("product_name");
+    //             String price = String.format("%.2f", rs.getDouble("product_price"));
+    //             String description = rs.getString("product_description");
+    //             String imagePath = rs.getString("product_image_path");
+    //             productItems.add(new ProductItem(name, price, description, imagePath));
+    //         }
+
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     return productItems;
+    // }
 
 }

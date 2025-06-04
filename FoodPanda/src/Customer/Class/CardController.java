@@ -1,11 +1,15 @@
 package Customer.Class;
 
 import java.io.File;
+import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import Customer.SwitchScene;
+import javafx.scene.control.Button;
 
 public class CardController {
 
@@ -21,13 +25,19 @@ public class CardController {
     @FXML
     private ImageView img_header;
 
-    // public void setData(String name, String price, String restaurant) {
-    //     lbl_foodName.setText(name);
-    //     lbl_price.setText("₱" + price);
-    //     lbl_restaurantPlaceholder.setText(restaurant);
-    // }
+    @FXML
+    private Button btn_showProducts;
 
-    public void setData(String name, String address, String headerPath) {
+    private String restaurantID;
+
+    @FXML
+    private void showProductsHandler(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/RestaurantProducts.fxml");
+    }
+
+    public void setData(String name, String address, String headerPath, String restaurantID) {
+        this.restaurantID = restaurantID;
+
         // Set the restaurant name
         lbl_restaurantName.setText(name);
 
@@ -41,7 +51,7 @@ public class CardController {
         if (imageFile.exists()) {
             headerImage = new Image(imageFile.toURI().toString());
         } else {
-            // Fallback image path (e.g., "default.png" in your project resources)
+            // Fallback image path
             headerImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Header/default.png");
         }
         

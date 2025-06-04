@@ -4,11 +4,13 @@ public class RestaurantItem {
     private String restaurant_name;
     private String restaurant_address;
     private String restaurant_header_path;
+    private String restaurantID;
 
-    public RestaurantItem(String restaurant_name, String restaurant_address, String restaurant_header_path) {
+    public RestaurantItem(String restaurant_name, String restaurant_address, String restaurant_header_path, String restaurantID) {
         this.restaurant_name = restaurant_name;
         this.restaurant_address = restaurant_address;
         this.restaurant_header_path = restaurant_header_path;
+        this.restaurantID = restaurantID;
     }
 
     public String getName() {
@@ -21,6 +23,10 @@ public class RestaurantItem {
 
     public String getHeaderPath() {
         return restaurant_header_path;
+    }
+
+    public String getRestaurantID() {
+        return restaurantID;
     }
 
 }
