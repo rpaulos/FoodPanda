@@ -42,7 +42,7 @@
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <ComboBox layoutX="217.0" layoutY="254.0" prefHeight="25.0" prefWidth="110.0" promptText="Price Range" style="-fx-background-color: F8BF00; -fx-background-radius: 5 13 5 5;">
+            <ComboBox layoutX="217.0" layoutY="254.0" prefHeight="25.0" prefWidth="110.0" promptText="Price Range" style="-fx-background-color: F8BF00; -fx-background-radius: 12;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ComboBox>
