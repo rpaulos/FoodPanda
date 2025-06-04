@@ -44,7 +44,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="23.0" layoutY="636.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="294.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_logout" layoutX="23.0" layoutY="636.0" mnemonicParsing="false" onAction="#toLandingPageHandler" prefHeight="33.0" prefWidth="294.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

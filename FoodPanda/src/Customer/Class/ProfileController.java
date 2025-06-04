@@ -55,6 +55,9 @@ public class ProfileController implements Initializable {
     @FXML
     private Label lbl_name;
 
+    @FXML
+    private Button btn_logout;
+
     private Stage stage;
     private Scene scene; 
     private Parent root;
@@ -78,6 +81,11 @@ public class ProfileController implements Initializable {
     @FXML
     public void toHomeHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
+    }
+
+    @FXML
+    public void toLandingPageHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/LandingPage.fxml");
     }
 
     @FXML
