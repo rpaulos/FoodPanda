@@ -225,10 +225,10 @@ public class BusinessDatabaseHandler {
     }
 
     // Insert restaurant into the database
-    public static void insertRestaurant(String restaurantID, String restaurantLocationID, String companyName) {
+    public static void insertRestaurant(String restaurantID, String restaurantLocationID, String companyName, String headerPath) {
         getInstance();
 
-        String query = "INSERT INTO restaurant (restaurant_ID, restaurant_location_ID, restaurant_name) VALUES (?, ?, ?)";
+        String query = "INSERT INTO restaurant (restaurant_ID, restaurant_location_ID, restaurant_name, restaurant_header_path) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getDBConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -236,6 +236,7 @@ public class BusinessDatabaseHandler {
             pstmt.setString(1, restaurantID);
             pstmt.setString(2, restaurantLocationID);
             pstmt.setString(3, companyName);
+            pstmt.setString(4, headerPath);
 
             pstmt.executeUpdate();
 

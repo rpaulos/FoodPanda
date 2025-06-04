@@ -132,8 +132,10 @@ public class BusinessSignUpController {
         BusinessDatabaseHandler.insertRestaurantLocation(restaurantLocationID, selectedCity, address, zip);
 
         String restaurantID = BusinessDatabaseHandler.generateRestaurantID(restaurantLocationID);
-        
-        BusinessDatabaseHandler.insertRestaurant(restaurantID, restaurantLocationID, companyName);
+
+
+        String headerPath = "C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\" + restaurantID + ".png";
+        BusinessDatabaseHandler.insertRestaurant(restaurantID, restaurantLocationID, companyName, headerPath);
 
         String businessOwnerID = BusinessDatabaseHandler.generateBusinessOwnerID(restaurantID);
 
