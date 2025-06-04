@@ -3,12 +3,12 @@ USE foodpanda;
 
 -- creates the admin table
 CREATE TABLE admins (
-	admin_ID VARCHAR(10) PRIMARY KEY,
-    admin_username VARCHAR(20) UNIQUE NOT NULL,
+	admin_ID VARCHAR(100) PRIMARY KEY,
+    admin_username VARCHAR(100) UNIQUE NOT NULL,
     admin_password VARCHAR(30) NOT NULL,
     admin_email VARCHAR(100) UNIQUE NOT NULL,
-    admin_first_name VARCHAR(20) NOT NULL,
-    admin_last_name VARCHAR(20) NOT NULL,
+    admin_first_name VARCHAR(100) NOT NULL,
+    admin_last_name VARCHAR(100) NOT NULL,
     admin_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -43,8 +43,8 @@ SELECT * FROM restaurant_location;
 
 -- creates restaurant table (depends on restaurant_location)
 CREATE TABLE restaurant (
-	restaurant_ID VARCHAR(15) PRIMARY KEY,
-    restaurant_location_ID VARCHAR(15) NOT NULL,
+	restaurant_ID VARCHAR(100) PRIMARY KEY,
+    restaurant_location_ID VARCHAR(100) NOT NULL,
     restaurant_name VARCHAR(100) NOT NULL,
     price_range_ID VARCHAR(15),
     restaurant_header_path VARCHAR(500),
@@ -60,9 +60,9 @@ CREATE TABLE restaurant (
 SELECT * FROM restaurant;
 
 CREATE TABLE product (
-	product_ID VARCHAR(15) PRIMARY KEY,
-    restaurant_ID VARCHAR(15) NOT NULL,
-    product_name VARCHAR(20) NOT NULL,
+	product_ID VARCHAR(100) PRIMARY KEY,
+    restaurant_ID VARCHAR(100) NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
     product_desc VARCHAR(500) NOT NULL,
     product_quantity INT NOT NULL,
     product_price DECIMAL (10, 2) NOT NULL,
@@ -76,13 +76,13 @@ SELECT * FROM product;
 
 -- creates customer table
 CREATE TABLE customer (
-	customer_ID VARCHAR(15) PRIMARY KEY,
-    customer_location_ID VARCHAR(15) NOT NULL,
+	customer_ID VARCHAR(100) PRIMARY KEY,
+    customer_location_ID VARCHAR(100) NOT NULL,
     customer_phone_number VARCHAR(11) UNIQUE NOT NULL,
     customer_email VARCHAR(100) UNIQUE NOT NULL,
     customer_password VARCHAR(50) NOT NULL,
-    customer_first_name VARCHAR(30) NOT NULL,
-    customer_last_name VARCHAR(30) NOT NULL,
+    customer_first_name VARCHAR(50) NOT NULL,
+    customer_last_name VARCHAR(50) NOT NULL,
     customer_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (customer_location_ID) 
@@ -94,10 +94,10 @@ SELECT * FROM customer;
 
 -- creates business_owner table (tristan 05/26/2025)
 CREATE TABLE business_owner (
-    business_owner_ID VARCHAR(15) PRIMARY KEY,
-    restaurant_ID VARCHAR(15) NOT NULL,
-    owner_first_name VARCHAR(30) NOT NULL,
-    owner_last_name VARCHAR(30) NOT NULL,
+    business_owner_ID VARCHAR(100) PRIMARY KEY,
+    restaurant_ID VARCHAR(100) NOT NULL,
+    owner_first_name VARCHAR(50) NOT NULL,
+    owner_last_name VARCHAR(50) NOT NULL,
     owner_email VARCHAR(100) UNIQUE NOT NULL,
     owner_password VARCHAR(30) NOT NULL,
     FOREIGN KEY (restaurant_ID)
@@ -109,7 +109,7 @@ SELECT * FROM business_owner;
 
 -- creates wallet with foreign key to who owns it
 CREATE TABLE pandapay_wallet (
-	customer_ID VARCHAR(15) PRIMARY KEY,
+	customer_ID VARCHAR(100) PRIMARY KEY,
     customer_balance DECIMAL(10, 2) NOT NULL,
     
     FOREIGN KEY (customer_ID) 
@@ -121,7 +121,7 @@ SELECT * FROM pandapay_wallet;
 
 -- creates wallet with foreign key to who owns it
 CREATE TABLE business_owner_pandapay_wallet (
-	business_owner_ID VARCHAR(15) PRIMARY KEY,
+	business_owner_ID VARCHAR(100) PRIMARY KEY,
     business_owner_balance DECIMAL(10, 2) NOT NULL,
     
     FOREIGN KEY (business_owner_ID) 
