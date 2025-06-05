@@ -133,15 +133,16 @@ public class BusinessSignUpController {
 
         String restaurantID = BusinessDatabaseHandler.generateRestaurantID(restaurantLocationID);
 
-
-        String headerPath = "C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\" + restaurantID + ".png";
+        String headerPath = "C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\" + companyName + ".png";
         BusinessDatabaseHandler.insertRestaurant(restaurantID, restaurantLocationID, companyName, headerPath);
 
         String businessOwnerID = BusinessDatabaseHandler.generateBusinessOwnerID(restaurantID);
 
         BusinessDatabaseHandler.insertBusinessOwner(businessOwnerID, restaurantID, firstName, lastName, email, password);
 
-        SwitchScene.switchScene(event, "/Business/FXML/BusinessLogin.fxml");
+        System.out.println("Sign up successful!");
+
+        //SwitchScene.switchScene(event, "/Business/FXML/BusinessLogin.fxml");
         // Proceed with signup
     }
 
