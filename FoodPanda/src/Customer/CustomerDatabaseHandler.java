@@ -349,6 +349,100 @@ public class CustomerDatabaseHandler {
         return restaurantItems;
     }
 
+    public static List<ProductItem> getProductItems(String restaurant_ID) {
+        List<ProductItem> productItems = new ArrayList<>();
+
+        String query = "SELECT * FROM product where restaurant_ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurant_ID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String id = rs.getString("product_ID");
+                    String name = rs.getString("product_name");
+                    String price = String.format("%.2f", rs.getDouble("product_price"));
+                    String description = rs.getString("product_desc");
+                    String imagePath = rs.getString("product_image_path");
+                    productItems.add(new ProductItem(id, name, price, description, imagePath));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productItems;
+    }
+    
+
+    public static String getCustomerLocationID(String email) {
+        getInstance();
+
+        String query = "SELECT customer_location_ID FROM customer WHERE customer_email = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_location_ID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting customer location ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+
+    public static String getAddress(String customerLocationID) {
+        getInstance();
+
+        String query = "SELECT address FROM customer_location WHERE customer_location_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerLocationID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("address");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting address: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getRestaurantName(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT restaurant_name FROM Restaurant WHERE restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("restaurant_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
     // public void loadProductsByRestaurant(String restaurantID) {
     //     // This method can be used to load products for a specific restaurant
     //     // Implementation can be added based on the requirements

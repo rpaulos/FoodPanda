@@ -40,12 +40,12 @@ public class ProductCardController {
             productImage = new Image(imageFile.toURI().toString());
         } else {
             // Fallback image path
-            productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Header/default.png");
+            productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
         }
 
-        img_product_image.setImage(productImage);
+        // For testing purposes
+        productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
 
-        // Set the price label to a placeholder value
-        lbl_price.setText("PPP");
+        img_product_image.setImage(productImage);
     }
 }

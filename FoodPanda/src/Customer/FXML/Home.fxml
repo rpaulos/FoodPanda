@@ -46,9 +46,9 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ComboBox>
-            <Label layoutX="40.0" layoutY="24.0" text="LOCATION" textFill="WHITE">
+            <Label fx:id="lbl_location" layoutX="40.0" layoutY="25.0" prefHeight="12.0" prefWidth="146.0" text="LOCATION" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="11.0" />
                </font>
             </Label>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="285.0" prefHeight="395.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

@@ -1,6 +1,7 @@
 package Customer.Class;
 
 import Customer.CustomerDatabaseHandler;
+import Customer.CustomerSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import java.util.Collections;
+import javafx.scene.control.Label;
 
 import Customer.SwitchScene;
 
@@ -33,6 +35,8 @@ public class HomeController {
     @FXML
     private GridPane cardGrid;
 
+    @FXML
+    private Label lbl_location;
 
     private Stage stage;
     private Scene scene; 
@@ -74,10 +78,10 @@ public class HomeController {
 
 
     public void initialize() {
+        setLocation();
         cardGrid.getChildren().clear();
         cardGrid.getRowConstraints().clear();
         cardGrid.getColumnConstraints().clear();
-
 
         int columns = 1;
         int col = 0;
@@ -107,5 +111,12 @@ public class HomeController {
         }
     }
 
+    public void setLocation() {
+        String customerLocationID = CustomerDatabaseHandler.getCustomerLocationID(CustomerSession.getEmail());
+        String address = CustomerDatabaseHandler.getAddress(customerLocationID);
+        
+        CustomerSession.setAddress(address);
+        lbl_location.setText(address);
+    }
 }
 

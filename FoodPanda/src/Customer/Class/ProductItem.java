@@ -1,31 +1,37 @@
 package Customer.Class;
 
 public class ProductItem {
-    private String name;
-    private String price;
-    private String description;
-    private String imagePath;
+    private String product_id;
+    private String product_name;
+    private String product_price;
+    private String product_description;
+    private String product_imagePath;
 
-    public ProductItem(String name, String price, String description, String imagePath) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.imagePath = imagePath;
+    public ProductItem(String id, String name, String price, String description, String imagePath) {
+        this.product_id = id;
+        this.product_name = name;
+        this.product_price = price;
+        this.product_description = description;
+        this.product_imagePath = imagePath;
     }
 
-    public String getName() {
-        return name;
+    public String getProductID() {
+        return product_id;
     }
 
-    public String getPrice() {
-        return price;
+    public String getProductName() {
+        return product_name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getProductPrice() {
+        return product_price;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getProductDescription() {
+        return product_description;
+    }
+
+    public String getProductImagePath() {
+        return product_imagePath;
     }
 }
