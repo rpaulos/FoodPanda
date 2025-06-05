@@ -41,3 +41,22 @@ WHERE restaurant_ID = 'R_RLMAN_00005_001';
 DELETE FROM restaurant_location
 WHERE restaurant_location_ID = "RLMAN_00005";
 
+ALTER TABLE product
+ADD COLUMN product_image_path VARCHAR(500);
+
+UPDATE restaurant
+SET price_range_ID = 'PR001'
+WHERE price_range_ID IS NULL;
+
+-- Disable foreign key checks temporarily
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Alter the column with default value
+ALTER TABLE restaurant
+MODIFY price_range_ID VARCHAR(15) NOT NULL DEFAULT 'PR001';
+
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+
