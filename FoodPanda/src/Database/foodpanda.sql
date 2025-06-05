@@ -66,6 +66,7 @@ CREATE TABLE product (
     product_desc VARCHAR(500) NOT NULL,
     product_quantity INT NOT NULL,
     product_price DECIMAL (10, 2) NOT NULL,
+    product_image_path VARCHAR(500),
     
     FOREIGN KEY (restaurant_ID)
     REFERENCES restaurant(restaurant_ID)
