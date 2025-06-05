@@ -51,7 +51,7 @@ public class BusinessSignInController {
         if (BusinessDatabaseHandler.validateBusinessOwnerLogin(email, password)) {
             System.out.println("Login successful!");
 
-            SwitchScene.switchScene(event, "/Business/FXML/BusinessSignUp.fxml");
+            SwitchScene.switchScene(event, "/Business/FXML/BusinessHomePage.fxml");
         } else {
             System.out.println("Login failed! Invalid email or password.");
         }
