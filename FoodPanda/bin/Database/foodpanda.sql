@@ -127,6 +127,41 @@ CREATE TABLE business_owner_pandapay_wallet (
     ON DELETE CASCADE
 );
 
+-- creates cart with foreign key to who owns it
+CREATE TABLE cart (
+    cart_ID VARCHAR(100) PRIMARY KEY,
+    customer_ID VARCHAR(100) NOT NULL,
+    product_ID VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (customer_ID) 
+    REFERENCES customer(customer_ID) 
+    ON DELETE CASCADE,
+    
+    FOREIGN KEY (product_ID) 
+    REFERENCES product(product_ID) 
+    ON DELETE CASCADE
+);
+
+-- created orders with foreign key to who made the transaction
+CREATE TABLE orders (
+    order_ID VARCHAR(100) PRIMARY KEY,
+    customer_ID VARCHAR(100) NOT NULL,
+    restaurant_ID VARCHAR(100) NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (customer_ID) 
+    REFERENCES customer(customer_ID) 
+    ON DELETE CASCADE,
+    
+    FOREIGN KEY (restaurant_ID) 
+    REFERENCES restaurant(restaurant_ID) 
+    ON DELETE CASCADE
+);
+
+
 SELECT * FROM business_owner_pandapay_wallet;
 
 SELECT * FROM admins;
