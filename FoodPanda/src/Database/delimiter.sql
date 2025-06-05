@@ -26,81 +26,65 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE TRIGGER trg_update_price_range
+CREATE TRIGGER update_price_range_after_insert
 AFTER INSERT ON product
 FOR EACH ROW
 BEGIN
-    DECLARE avg_price DECIMAL(10,2);
-    DECLARE pr_id VARCHAR(15);
+  DECLARE avg_price DECIMAL(10,2);
+  DECLARE new_price_range VARCHAR(10);
 
-    -- Calculate the average price for the restaurant
-    SELECT AVG(product_price)
-    INTO avg_price
-    FROM product
-    WHERE restaurant_ID = NEW.restaurant_ID;
+  SELECT AVG(product_price)
+  INTO avg_price
+  FROM product
+  WHERE restaurant_ID = NEW.restaurant_ID;
 
-    -- Determine the appropriate price_range_ID
-    IF avg_price < 150 THEN
-        SET pr_id = 'PR1'; -- Low
-    ELSEIF avg_price BETWEEN 150 AND 350 THEN
-        SET pr_id = 'PR2'; -- Medium
-    ELSE
-        SET pr_id = 'PR3'; -- High
-    END IF;
+  IF avg_price < 100 THEN
+    SET new_price_range = '₱';
+  ELSEIF avg_price < 300 THEN
+    SET new_price_range = '₱₱';
+  ELSE
+    SET new_price_range = '₱₱₱';
+  END IF;
 
-    -- Update the restaurant table with the new price range
-    UPDATE restaurant
-    SET price_range_ID = pr_id
-    WHERE restaurant_ID = NEW.restaurant_ID;
-END$$
+  UPDATE restaurant
+  SET price_range = new_price_range
+  WHERE restaurant_ID = NEW.restaurant_ID;
+END;
+$$
 
 DELIMITER ;
 
 DELIMITER $$
 
-CREATE TRIGGER trg_update_price_range_update
+CREATE TRIGGER update_price_range_after_update
 AFTER UPDATE ON product
 FOR EACH ROW
 BEGIN
-    DECLARE avg_price DECIMAL(10,2);
-    DECLARE pr_id VARCHAR(15);
+  DECLARE avg_price DECIMAL(10,2);
+  DECLARE new_price_range VARCHAR(10);
 
-    -- Calculate the average price for the restaurant
-    SELECT AVG(product_price)
-    INTO avg_price
-    FROM product
-    WHERE restaurant_ID = NEW.restaurant_ID;
+  SELECT AVG(product_price)
+  INTO avg_price
+  FROM product
+  WHERE restaurant_ID = NEW.restaurant_ID;
 
-    -- Determine the appropriate price_range_ID
-    IF avg_price < 150 THEN
-        SET pr_id = 'PR1'; -- Low
-    ELSEIF avg_price BETWEEN 150 AND 350 THEN
-        SET pr_id = 'PR2'; -- Medium
-    ELSE
-        SET pr_id = 'PR3'; -- High
-    END IF;
+  IF avg_price < 100 THEN
+    SET new_price_range = '₱';
+  ELSEIF avg_price < 300 THEN
+    SET new_price_range = '₱₱';
+  ELSE
+    SET new_price_range = '₱₱₱';
+  END IF;
 
-    -- Update the restaurant table with the new price range
-    UPDATE restaurant
-    SET price_range_ID = pr_id
-    WHERE restaurant_ID = NEW.restaurant_ID;
-END$$
+  UPDATE restaurant
+  SET price_range = new_price_range
+  WHERE restaurant_ID = NEW.restaurant_ID;
 END;
+$$
 
 DELIMITER ;
 
-DELIMITER $$
 
-CREATE TRIGGER set_default_price_range
-BEFORE INSERT ON restaurant
-FOR EACH ROW
-BEGIN
-    IF NEW.price_range_ID IS NULL OR NEW.price_range_ID = '' THEN
-        SET NEW.price_range_ID = 'PR001';
-    END IF;
-END$$
-
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS trg_update_price_range;
 DROP TRIGGER IF EXISTS trg_update_price_range_update;

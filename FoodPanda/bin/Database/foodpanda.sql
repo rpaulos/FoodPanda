@@ -46,15 +46,12 @@ CREATE TABLE restaurant (
 	restaurant_ID VARCHAR(100) PRIMARY KEY,
     restaurant_location_ID VARCHAR(100) NOT NULL,
     restaurant_name VARCHAR(100) NOT NULL,
-    price_range_ID VARCHAR(15),
+    price_range VARCHAR(10) NOT NULL DEFAULT '₱',
     restaurant_header_path VARCHAR(500),
     
     FOREIGN KEY (restaurant_location_ID) 
     REFERENCES restaurant_location(restaurant_location_ID)
-	ON DELETE CASCADE,
-    
-    FOREIGN KEY (price_range_ID)
-    REFERENCES price_range(price_range_ID)
+	ON DELETE CASCADE
 );
 
 SELECT * FROM restaurant;
