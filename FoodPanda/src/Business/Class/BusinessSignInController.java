@@ -3,6 +3,8 @@ package Business.Class;
 import java.io.IOException;
 
 import Business.BusinessDatabaseHandler;
+import Business.BusinessSession;
+
 import Business.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +52,9 @@ public class BusinessSignInController {
 
         if (BusinessDatabaseHandler.validateBusinessOwnerLogin(email, password)) {
             System.out.println("Login successful!");
+
+            BusinessSession.setEmail(email);
+            BusinessSession.setRestaurantID(BusinessDatabaseHandler.getRestaurantID(email));
 
             SwitchScene.switchScene(event, "/Business/FXML/BusinessHomePage.fxml");
         } else {

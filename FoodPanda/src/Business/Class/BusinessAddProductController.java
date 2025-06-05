@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import Business.BusinessSession;
 
 public class BusinessAddProductController {
 
@@ -91,7 +92,7 @@ public class BusinessAddProductController {
         double price = Double.parseDouble(priceText);
         int quantity = Integer.parseInt(qtyText);
         String productID = BusinessDatabaseHandler.generateProductID();
-        String restaurantID = "R_RLMAN_00001_001";  // <-- replace with actual logged-in restaurant ID
+        String restaurantID = BusinessSession.getRestaurantID();  // <-- replace with actual logged-in restaurant ID
         //String priceRangeID = "PR1";   // <-- you may want to select this dynamically in your UI
 
         boolean success = BusinessDatabaseHandler.insertProduct(

@@ -355,4 +355,73 @@ public class BusinessDatabaseHandler {
     }
 
     }
+
+    // Get business owner ID by email
+    public static String getBusinessOwnerID(String email) {
+        getInstance();
+
+        String query = "SELECT business_owner_ID FROM business_owner WHERE owner_email = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("business_owner_ID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting business owner ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Get restaurant name by restaurant ID
+    public static String getRestaurantName(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT restaurant_name FROM restaurant WHERE restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("restaurant_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Get restaurant ID by business owner email
+    public static String getRestaurantID(String email) {
+        getInstance();
+
+        String query = "SELECT restaurant_ID FROM business_owner WHERE owner_email = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("restaurant_ID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
