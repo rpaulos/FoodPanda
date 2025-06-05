@@ -161,6 +161,16 @@ CREATE TABLE orders (
     ON DELETE CASCADE
 );
 
+CREATE TABLE order_items (
+    order_item_ID VARCHAR(100) PRIMARY KEY,
+    order_ID VARCHAR(100) NOT NULL,
+    product_ID VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price_at_order DECIMAL(10,2) NOT NULL,
+    
+    FOREIGN KEY (order_ID) REFERENCES orders(order_ID) ON DELETE CASCADE,
+    FOREIGN KEY (product_ID) REFERENCES product(product_ID) ON DELETE CASCADE
+);
 
 SELECT * FROM business_owner_pandapay_wallet;
 
