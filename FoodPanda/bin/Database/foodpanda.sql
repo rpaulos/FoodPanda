@@ -132,4 +132,15 @@ CREATE TABLE business_owner_pandapay_wallet (
 
 SELECT * FROM business_owner_pandapay_wallet;
 
+SELECT * FROM admins;
+SELECT * FROM business_owner;
+SELECT * FROM business_owner_pandapay_wallet;
+SELECT * FROM customer;
+SELECT * FROM customer_location;
+SELECT * FROM pandapay_wallet;
+SELECT * FROM price_range;
+SELECT * FROM product;
+SELECT * FROM restaurant;
+SELECT * FROM restaurant_location;
+
 DROP DATABASE foodpanda;
