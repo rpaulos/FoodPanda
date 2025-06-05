@@ -18,16 +18,16 @@ import javafx.stage.Stage;
 public class BusinessSignInController {
 
     @FXML
-    private Button signinbtn;
+    private Button btn_return;
 
     @FXML
-    private TextField signinemailadd;
+    private Button btn_signIn;
 
     @FXML
-    private PasswordField signinpassword;
+    private PasswordField pf_password;
 
     @FXML
-    private Button signreturnbtn;
+    private TextField tf_email;
 
     private Stage stage;
     private Scene scene; 
@@ -40,10 +40,15 @@ public class BusinessSignInController {
 
     @FXML
     public void toValidateOwnerLogin(ActionEvent event) throws IOException {
-        String oemail = signinemailadd.getText();
-        String opassword = signinpassword.getText();
+        String email = tf_email.getText().trim();
+        String password = pf_password.getText().trim();
 
-        if (BusinessDatabaseHandler.validateBusinessOwnerLogin(oemail, opassword)) {
+        if (email.isEmpty() || password.isEmpty()) {
+            System.out.println("Email and password cannot be empty.");
+            return;
+        }
+
+        if (BusinessDatabaseHandler.validateBusinessOwnerLogin(email, password)) {
             System.out.println("Login successful!");
 
             SwitchScene.switchScene(event, "/Business/FXML/BusinessSignUp.fxml");
