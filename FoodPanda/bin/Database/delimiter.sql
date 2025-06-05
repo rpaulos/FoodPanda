@@ -91,22 +91,20 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE TRIGGER set_restaurant_header_path
-AFTER INSERT ON restaurant
+CREATE TRIGGER set_default_price_range
+BEFORE INSERT ON restaurant
 FOR EACH ROW
 BEGIN
-    UPDATE restaurant
-    SET restaurant_header_path = CONCAT(
-        'C:\\Users\\Rae\\Desktop\\FoodPanda\\FoodPanda\\src\\User Interface\\Restaurant Header\\',
-        NEW.restaurant_ID,
-        '.png'
-    )
-    WHERE restaurant_ID = NEW.restaurant_ID;
-END $$
+    IF NEW.price_range_ID IS NULL OR NEW.price_range_ID = '' THEN
+        SET NEW.price_range_ID = 'PR001';
+    END IF;
+END$$
 
 DELIMITER ;
 
-DROP TRIGGER IF EXISTS set_restaurant_header_path;
+DROP TRIGGER IF EXISTS trg_update_price_range;
+DROP TRIGGER IF EXISTS trg_update_price_range_update;
+DROP TRIGGER IF EXISTS set_default_price_range;
 
 SHOW TRIGGERS;
 
