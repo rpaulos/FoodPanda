@@ -326,7 +326,7 @@ public class CustomerDatabaseHandler {
     public static List<RestaurantItem> getRestaurantItems() {
         List<RestaurantItem> restaurantItems = new ArrayList<>();
 
-        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.address " +
+        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.address, r.price_range " +
                        "FROM Restaurant r " +
                        "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID";
 
@@ -339,13 +339,44 @@ public class CustomerDatabaseHandler {
                 String name = rs.getString("restaurant_name");
                 String headerPath = rs.getString("restaurant_header_path");
                 String address = rs.getString("address");
-                restaurantItems.add(new RestaurantItem(name, address, headerPath, id));
+                String priceRange = rs.getString("price_range");
+                restaurantItems.add(new RestaurantItem(name, address, headerPath, id, priceRange));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        return restaurantItems;
+    }
+
+    public static List<RestaurantItem> getFilteredRestaurants(String priceRange) {
+        List<RestaurantItem> restaurantItems = new ArrayList<>();
+
+        String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.address, r.price_range " +
+               "FROM Restaurant r " +
+               "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID " + 
+               "WHERE r.price_range = ?";
+
+        try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, priceRange); 
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String id = rs.getString("restaurant_ID");
+                    String name = rs.getString("restaurant_name");
+                    String headerPath = rs.getString("restaurant_header_path");
+                    String address = rs.getString("address");
+                    String range = rs.getString("price_range"); 
+                    restaurantItems.add(new RestaurantItem(name, address, headerPath, id, range));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return restaurantItems;
     }
 
