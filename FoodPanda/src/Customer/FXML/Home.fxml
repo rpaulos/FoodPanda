@@ -51,7 +51,7 @@
                   <Font name="System Bold" size="11.0" />
                </font>
             </Label>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="285.0" prefHeight="395.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="319.2" prefHeight="361.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
                <content>
                   <GridPane fx:id="cardGrid" alignment="TOP_CENTER" hgap="3.0" prefHeight="26.0" prefWidth="338.0" style="-fx-background-color: #ffffff; -fx-alignment: center;">
                     <columnConstraints>
