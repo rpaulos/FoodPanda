@@ -46,5 +46,10 @@
             <Font name="Arial Black" size="15.0" />
          </font>
       </Label>
+      <ImageView fx:id="img_product_header" fitHeight="180.0" fitWidth="345.0" layoutX="-3.2" layoutY="59.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-2.0">
+         <image>
+            <Image url="@../../User%20Interface/Restaurant%20Product%20Header/default_product_header.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

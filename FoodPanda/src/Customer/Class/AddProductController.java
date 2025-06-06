@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 
 import Customer.CustomerSession;
 import Customer.CustomerDatabaseHandler;
@@ -62,6 +63,9 @@ public class AddProductController {
     @FXML
     private Text txt_desc;
 
+    @FXML
+    private ImageView img_product_header;
+
     public static String myProductID;
 
     @FXML
@@ -80,6 +84,21 @@ public class AddProductController {
         String productPrice = CustomerDatabaseHandler.getProductPrice(productID);
         String productDescription = CustomerDatabaseHandler.getProductDescription(productID);
         String productQuantity = CustomerDatabaseHandler.getProductQuantity(productID);
+
+        // Set the product header image
+        String headerPath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Product Header/" + productID + ".png";
+        
+        File imageFile = new File(headerPath);
+        Image headerImage;
+
+        if (imageFile.exists()) {
+            headerImage = new Image(imageFile.toURI().toString());
+        } else {
+            // Fallback image path
+            headerImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Product Header/default_product_header.png");
+        }
+        
+        img_product_header.setImage(headerImage);
 
         // Set the product details in the UI
         lbl_product_name.setText(productName);
