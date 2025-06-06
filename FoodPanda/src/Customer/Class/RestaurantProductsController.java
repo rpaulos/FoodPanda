@@ -1,6 +1,8 @@
 package Customer.Class;
 
 import Customer.CustomerDatabaseHandler;
+
+import java.io.File;
 import java.io.IOException;
 import Customer.CustomerSession;
 import java.util.List;
@@ -22,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 import Customer.SwitchScene;
+import java.awt.image.ImageFilter;
 
 public class RestaurantProductsController {
 
@@ -61,6 +64,7 @@ public class RestaurantProductsController {
     }
 
     public void initialize() {
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
         setRestaurantDetails();
         cardGrid.getChildren().clear();
         cardGrid.getRowConstraints().clear();
@@ -71,8 +75,7 @@ public class RestaurantProductsController {
         int rows = 0;
 
         try {
-            List<ProductItem> productItems = CustomerDatabaseHandler.getProductItems("R_RLMAN_00001_001");
-            System.out.println("Loaded products:" + productItems);
+            List<ProductItem> productItems = CustomerDatabaseHandler.getProductItems(restaurantID);
             for (ProductItem product : productItems) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
                 AnchorPane card = fxmlLoader.load();
@@ -94,57 +97,27 @@ public class RestaurantProductsController {
     }
 
     private void setRestaurantDetails() {
-        //String restaurantID = CustomerSession.getInstance().getRestaurantID();
-        //String restaurantName = CustomerSession.getInstance().getRestaurantName();
-        String restaurantName = CustomerDatabaseHandler.getRestaurantName("R_RLMAN_00001_001");
-        //String restaurantLogoPath = CustomerSession.getInstance().getRestaurantLogoPath();
 
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
+        System.out.println("Selected Restaurant ID: " + restaurantID);
+
+        // Set the restaurant name
+        String restaurantName = CustomerDatabaseHandler.getRestaurantName(restaurantID);
         lbl_restaurantName.setText(restaurantName);
 
-        // Set the restaurant logo image
-        // File imageFile = new File(restaurantLogoPath);
-        // Image restaurantLogo;
+        // Set the logo image path
+        String restaurantLogo = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Logo/" + restaurantName;
+        File imageFile = new File(restaurantLogo);
 
-        // if (imageFile.exists()) {
-        //     restaurantLogo = new Image(imageFile.toURI().toString());
-        // } else {
-        //     // Fallback image path
-        //     restaurantLogo = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Header/default.png");
-        // }
+        Image restaurantLogoImage;
+        if (imageFile.exists()) {
+            restaurantLogoImage = new Image(imageFile.toURI().toString());
+        } else {
+            File defaultImage = new File("C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Logo/default_logo.png");
+            restaurantLogoImage = new Image(defaultImage.toURI().toString());        
+        }
 
-        //img_restaurantLogo.setImage(restaurantLogo);
+        img_restaurantLogo.setImage(restaurantLogoImage);
     }
 
-    // public void initialize() {
-    //     cardGrid.getChildren().clear();
-    //     cardGrid.getRowConstraints().clear();
-    //     cardGrid.getColumnConstraints().clear();
-
-    //     int columns = 1;
-    //     int col = 0;
-    //     int rows = 0;
-
-    //     try {
-    //         List<ProductItem> productList = CustomerDatabaseHandler.getInstance().getProductsByRestaurant("Jollibee Legarda Bustillos"); // Replace with actual restaurant name
-    //         for (ProductItem item : productList) {
-    //             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
-    //             AnchorPane card = loader.load();
-
-    //             ProductCardController productCardController = loader.getController();
-    //             productCardController.setData(item.getName(), item.getPrice(), item.getDescription(), item.getImagePath());
-
-    //             cardGrid.add(card, col, rows);
-    //             col++;
-
-    //         if (col == columns) {
-    //             col = 0;
-    //             rows++;
-    //         }
-        
-    //     }
-
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 }
