@@ -4,6 +4,7 @@ public class CustomerSession {
     private static String email;
     private static String address;
     private static String selectedRestaurantID;
+    private static String selectedProductID;
 
     public static void setEmail(String email) {
         CustomerSession.email = email;
@@ -16,6 +17,7 @@ public class CustomerSession {
     public static void clearSession() {
         email = null;
         selectedRestaurantID = null;
+        selectedProductID = null;
     }
 
     public static void setAddress(String address) {
@@ -30,7 +32,7 @@ public class CustomerSession {
         address = null;
     }
 
-        public static void setSelectedRestaurantID(String id) {
+    public static void setSelectedRestaurantID(String id) {
         CustomerSession.selectedRestaurantID = id;
     }
 
@@ -40,5 +42,17 @@ public class CustomerSession {
 
     public static void clearSelectedRestaurantID() {
         selectedRestaurantID = null;
+    }
+
+    public static void setSelectedProductID(String id) {
+        CustomerSession.selectedProductID = id;
+    }
+
+    public static String getSelectedProductID() {
+        return selectedProductID;
+    }
+
+    public static void clearSelectedProductID() {
+        selectedProductID = null;
     }
 }

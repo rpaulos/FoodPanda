@@ -81,7 +81,7 @@ public class RestaurantProductsController {
                 AnchorPane card = fxmlLoader.load();
 
                 ProductCardController controller = fxmlLoader.getController();
-                controller.setData(product.getProductName(), product.getProductPrice(), product.getProductDescription(), product.getProductImagePath());
+                controller.setData(product.getProductID(), product.getProductName(), product.getProductPrice(), product.getProductDescription(), product.getProductImagePath());
 
                 cardGrid.add(card, col, rows);
                 col++;

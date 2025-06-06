@@ -7,6 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import java.io.IOException;
+import Customer.SwitchScene;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+import Customer.CustomerSession;
 
 public class ProductCardController {
     
@@ -22,7 +32,11 @@ public class ProductCardController {
     @FXML
     private Text txt_desc;
 
-    public void setData(String name, String price, String description, String imagePath) {
+    private String productID;
+
+    public void setData(String productID, String name, String price, String description, String imagePath) {
+        this.productID = productID;
+
         // Set the product name
         lbl_product_name.setText(name);
 
@@ -43,9 +57,11 @@ public class ProductCardController {
             productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
         }
 
-        // For testing purposes
+        // For testing purposes only
         productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
 
         img_product_image.setImage(productImage);
     }
+
+    
 }
