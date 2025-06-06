@@ -1,5 +1,6 @@
 package Customer.Class;
 
+import Customer.CustomerSession;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,10 +33,11 @@ public class CardController {
 
     @FXML
     private void showProductsHandler(ActionEvent event) throws IOException {
+        CustomerSession.setSelectedRestaurantID(restaurantID);
         SwitchScene.switchScene(event, "/Customer/FXML/RestaurantProducts.fxml");
     }
 
-    public void setData(String name, String address, String headerPath, String restaurantID) {
+    public void setData(String name, String address, String headerPath, String restaurantID, String priceRange) {
         this.restaurantID = restaurantID;
 
         // Set the restaurant name
@@ -58,6 +60,6 @@ public class CardController {
         img_header.setImage(headerImage);
 
         // Set the price label to a placeholder value
-        lbl_price.setText("PPP");
+        lbl_price.setText(priceRange);
     }
 }
