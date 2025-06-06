@@ -22,7 +22,7 @@
                   <Image url="@../../User%20Interface/Restaurant%20Products/default_product.png" />
                </image>
             </ImageView>
-            <Button fx:id="btn_add" layoutX="290.0" layoutY="79.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="27.0" style="-fx-background-radius: 100; -fx-border-radius: 100; -fx-border-color: #757575; -fx-background-color: white;" text="+" textFill="#757575">
+            <Button fx:id="btn_add" layoutX="290.0" layoutY="79.0" mnemonicParsing="false" onAction="#showAddProductHandler" prefHeight="26.0" prefWidth="27.0" style="-fx-background-radius: 100; -fx-border-radius: 100; -fx-border-color: #757575; -fx-background-color: white;" text="+" textFill="#757575">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

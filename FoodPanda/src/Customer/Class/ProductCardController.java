@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -33,6 +34,20 @@ public class ProductCardController {
     private Text txt_desc;
 
     private String productID;
+
+    public static String myProductID;
+
+    @FXML
+    void showAddProductHandler(ActionEvent event) throws IOException {
+        CustomerSession.setSelectedProductID(productID);
+
+        myProductID = productID;
+        AddProductController.myProductID = productID;
+
+        System.out.println(productID);
+        SwitchScene.switchScene(event, "/Customer/FXML/AddProduct.fxml");
+
+    }
 
     public void setData(String productID, String name, String price, String description, String imagePath) {
         this.productID = productID;
@@ -63,5 +78,5 @@ public class ProductCardController {
         img_product_image.setImage(productImage);
     }
 
-    
+
 }

@@ -474,73 +474,92 @@ public class CustomerDatabaseHandler {
         }
         return null;
     }
-    // public void loadProductsByRestaurant(String restaurantID) {
-    //     // This method can be used to load products for a specific restaurant
-    //     // Implementation can be added based on the requirements
 
-    //     String query = "SELECT name, price, description, image_path " +
-    //                    "FROM Product WHERE restaurant_id = ?";
+    public static String getProductName(String productID) {
+        getInstance();
 
-    //    try (Connection conn = getDBConnection();
-    //         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        String query = "SELECT product_name FROM Product WHERE product_ID = ?";
 
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-    //         stmt.setInt(1, restaurantId);
-    //         ResultSet rs = stmt.executeQuery();
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
 
-    //         while (rs.next()) {
-    //             String name = rs.getString("name");
-    //             String price = rs.getString("price");
-    //             String description = rs.getString("description");
-    //             String imagePath = rs.getString("image_path");
+            if (result.next()) {
+                return result.getString("product_name");
+            }
 
-    //             ProductItem product = new ProductItem(name, price, description, imagePath);
+        } catch (SQLException e) {
+            System.out.println("Error getting product name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static String getProductPrice(String productID) {
+        getInstance();
 
-    //             // Load FXML
-    //             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
-    //             Parent productCard = loader.load();
+        String query = "SELECT product_price FROM Product WHERE product_ID = ?";
 
-    //             // Get controller and pass data
-    //             ProductCardController controller = loader.getController();
-    //             controller.setData(product.getName(), product.getPrice(), product.getDescription(), product.getImagePath());
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-    //             // Add to FlowPane
-    //             productFlowPane.getChildren().add(productCard);
-    //         }
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
 
-    //     } catch (SQLException | IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
+            if (result.next()) {
+                return String.format("%.2f", result.getDouble("product_price"));
+            }
 
+        } catch (SQLException e) {
+            System.out.println("Error getting product price: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    // public static List<ProductItem> getProductsByRestaurant() {
-    //     List<ProductItem> productItems = new ArrayList<>();
+    public static String getProductDescription(String productID) {
+        getInstance();
 
-    //     String query = "SELECT p.product_name, p.product_price, p.product_description, p.product_image_path " +
-    //                    "FROM Product p " +
-    //                    "JOIN Restaurant r ON p.restaurant_id = r.restaurant_id " +
-    //                    "WHERE r.restaurant_name = ?";
+        String query = "SELECT product_desc FROM Product WHERE product_ID = ?";
 
-    //     try (Connection conn = DriverManager.getConnection(dburl, userName, password);
-    //          PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-    //         pstmt.setString(1, "RestaurantName"); // Replace with actual restaurant name
-    //         ResultSet rs = pstmt.executeQuery();
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
 
-    //         while (rs.next()) {
-    //             String name = rs.getString("product_name");
-    //             String price = String.format("%.2f", rs.getDouble("product_price"));
-    //             String description = rs.getString("product_description");
-    //             String imagePath = rs.getString("product_image_path");
-    //             productItems.add(new ProductItem(name, price, description, imagePath));
-    //         }
+            if (result.next()) {
+                return result.getString("product_desc");
+            }
 
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
+        } catch (SQLException e) {
+            System.out.println("Error getting product description: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    //     return productItems;
-    // }
+    public static String getProductQuantity(String productID) {
+        getInstance();
 
+        String query = "SELECT product_quantity FROM Product WHERE product_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return String.valueOf(result.getInt("product_quantity"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting product quantity: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
