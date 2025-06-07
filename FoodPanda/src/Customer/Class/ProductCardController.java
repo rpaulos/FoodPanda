@@ -69,7 +69,7 @@ public class ProductCardController {
             productImage = new Image(imageFile.toURI().toString());
         } else {
             // Fallback image path
-            productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
+            productImage = new Image("@../../User%20Interface/Restaurant%20Header/default.png");
         }
 
         // For testing purposes only
