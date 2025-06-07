@@ -57,5 +57,10 @@ public class BusinessHomePageController implements Initializable{
     public void toAddAProductHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Business/FXML/BusinessAddProduct.fxml");
     }
+
+    @FXML
+    public void toMoveToProfileHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessProfile.fxml");
+    }
     
 }
