@@ -127,52 +127,49 @@ CREATE TABLE business_owner_pandapay_wallet (
     ON DELETE CASCADE
 );
 
--- creates cart with foreign key to who owns it
+SELECT * FROM business_owner_pandapay_wallet;
+
+-- creates cart table
 CREATE TABLE cart (
-    cart_ID VARCHAR(100) PRIMARY KEY,
-    customer_ID VARCHAR(100) NOT NULL,
+	customer_ID VARCHAR(100) NOT NULL,
     product_ID VARCHAR(100) NOT NULL,
-    quantity INT NOT NULL CHECK (quantity > 0),
-    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    restaurant_ID VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL,
     
-    FOREIGN KEY (customer_ID) 
-    REFERENCES customer(customer_ID) 
+    PRIMARY KEY(customer_ID, product_ID),
+    
+    FOREIGN KEY (customer_ID)
+    REFERENCES customer(customer_ID)
     ON DELETE CASCADE,
     
-    FOREIGN KEY (product_ID) 
-    REFERENCES product(product_ID) 
+    FOREIGN KEY (restaurant_ID)
+    REFERENCES restaurant(restaurant_ID)
+    ON DELETE CASCADE,
+    
+    FOREIGN KEY (product_ID)
+    REFERENCES product(product_ID)
     ON DELETE CASCADE
 );
+
+SELECT * FROM cart;
 
 -- created orders with foreign key to who made the transaction
 CREATE TABLE orders (
-    order_ID VARCHAR(100) PRIMARY KEY,
+	order_ID VARCHAR(100) PRIMARY KEY,
     customer_ID VARCHAR(100) NOT NULL,
     restaurant_ID VARCHAR(100) NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount DECIMAL(10, 2) NOT NULL,
     
-    FOREIGN KEY (customer_ID) 
-    REFERENCES customer(customer_ID) 
+    FOREIGN KEY (customer_ID)
+    REFERENCES customer(customer_ID)
     ON DELETE CASCADE,
     
-    FOREIGN KEY (restaurant_ID) 
-    REFERENCES restaurant(restaurant_ID) 
+    FOREIGN KEY (restaurant_ID)
+    REFERENCES restaurant(restaurant_ID)
     ON DELETE CASCADE
 );
 
-CREATE TABLE order_items (
-    order_item_ID VARCHAR(100) PRIMARY KEY,
-    order_ID VARCHAR(100) NOT NULL,
-    product_ID VARCHAR(100) NOT NULL,
-    quantity INT NOT NULL CHECK (quantity > 0),
-    price_at_order DECIMAL(10,2) NOT NULL,
-    
-    FOREIGN KEY (order_ID) REFERENCES orders(order_ID) ON DELETE CASCADE,
-    FOREIGN KEY (product_ID) REFERENCES product(product_ID) ON DELETE CASCADE
-);
-
-SELECT * FROM business_owner_pandapay_wallet;
+SELECT * FROM orders;
 
 SELECT * FROM admins;
 SELECT * FROM business_owner;
@@ -184,5 +181,7 @@ SELECT * FROM price_range;
 SELECT * FROM product;
 SELECT * FROM restaurant;
 SELECT * FROM restaurant_location;
+SELECT * FROM cart;
+SELECT * FROM orders;
 
 DROP DATABASE foodpanda;

@@ -63,11 +63,11 @@ public class LoginController {
 
             // Store email in CustomerSession
             CustomerSession.setEmail(email);
+            CustomerSession.setCustomerID(CustomerDatabaseHandler.getCustomerID(email));
 
             SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
         } else {
             System.out.println("Unsuccesful");
         }
     }
-
 }

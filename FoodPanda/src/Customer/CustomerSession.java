@@ -2,6 +2,7 @@ package Customer;
 
 public class CustomerSession {
     private static String email;
+    private static String customerID;
     private static String address;
     private static String selectedRestaurantID;
     private static String selectedProductID;
@@ -14,10 +15,12 @@ public class CustomerSession {
         return email;
     }
 
-    public static void clearSession() {
-        email = null;
-        selectedRestaurantID = null;
-        selectedProductID = null;
+    public static void setCustomerID(String customerID) {
+        CustomerSession.customerID = customerID;
+    }
+
+    public static String getCustomerID() {
+        return customerID;
     }
 
     public static void setAddress(String address) {
@@ -53,6 +56,12 @@ public class CustomerSession {
     }
 
     public static void clearSelectedProductID() {
+        selectedProductID = null;
+    }
+
+    public static void clearSession() {
+        email = null;
+        selectedRestaurantID = null;
         selectedProductID = null;
     }
 }

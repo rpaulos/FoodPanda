@@ -562,4 +562,148 @@ public class CustomerDatabaseHandler {
         }
         return null;
     }
+
+    public static String getCustomerID(String email) {
+        getInstance();
+
+        String query = "SELECT customer_id FROM customer WHERE customer_email = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_id");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting customer ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void addToCart(String customerID, String productID, String restaurantID, String quantity) {
+        getInstance();
+
+        String query = "INSERT INTO cart (customer_ID, product_ID, restaurant_ID, quantity) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            pstmt.setString(2, productID);
+            pstmt.setString(3, restaurantID);
+            pstmt.setString(4, quantity);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Product added to cart successfully.");
+            } else {
+                System.out.println("Failed to add product to cart.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error adding to cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void addCartQuantity(String customerID, String productID, String restaurantID, String quantity) {
+        getInstance();
+
+        String query = "UPDATE cart SET quantity = quantity + ? WHERE customer_ID = ? AND product_ID = ? AND restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, quantity);
+            pstmt.setString(2, customerID);
+            pstmt.setString(3, productID);
+            pstmt.setString(4, restaurantID);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Cart quantity updated successfully.");
+            } else {
+                System.out.println("Failed to update cart quantity.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating cart quantity: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isProductInCart(String customerID, String productID, String restaurantID) {
+        getInstance();
+
+        String query = "SELECT * FROM cart WHERE customer_ID = ? AND product_ID = ? AND restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            pstmt.setString(2, productID);
+            pstmt.setString(3, restaurantID);
+
+            ResultSet result = pstmt.executeQuery();
+
+            return result.next();
+
+        } catch (SQLException e) {
+            System.out.println("Error checking if product is in cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static int getMaxQuantityInCart(String customerID, String productID, String restaurantID) {
+        getInstance();
+
+        String query = "SELECT product_quantity FROM Product WHERE product_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getInt("product_quantity");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting max quantity in cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getCartQuantity(String customerID, String productID, String restaurantID) {
+        getInstance();
+
+        String query = "SELECT quantity FROM cart WHERE customer_ID = ? AND product_ID = ? AND restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            pstmt.setString(2, productID);
+            pstmt.setString(3, restaurantID);
+
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getInt("quantity");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting quantity in cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

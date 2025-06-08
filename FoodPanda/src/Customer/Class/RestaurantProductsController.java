@@ -106,7 +106,7 @@ public class RestaurantProductsController {
         lbl_restaurantName.setText(restaurantName);
 
         // Set the logo image path
-        String restaurantLogo = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Logo/" + restaurantName;
+        String restaurantLogo = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Logo/" + restaurantName + ".png";
         File imageFile = new File(restaurantLogo);
 
         Image restaurantLogoImage;

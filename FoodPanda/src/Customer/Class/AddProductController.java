@@ -107,4 +107,103 @@ public class AddProductController {
         //tf_quantity.setText(productQuantity);
     }
 
+    @FXML
+    void addToCart(ActionEvent event) throws IOException{
+        // get the customerID, productID, restaurantID
+        String customerID = CustomerSession.getCustomerID();
+        String productID = myProductID;
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
+
+        // get the quanity from the text field
+        String quantityText = tf_quantity.getText();
+
+        // get the quantity of the product from the database
+        String db_quantity = CustomerDatabaseHandler.getProductQuantity(myProductID);
+
+        // if tf_quantity is empty, set it to 1
+        if (quantityText == null || quantityText.trim().isEmpty()) {
+            tf_quantity.setText("1");
+        }
+
+        if (!String.valueOf(quantityText).matches("\\d+")) {
+            System.out.println("Error: Quantity must be a number.");
+            tf_quantity.setText("1");
+            return;
+        }
+
+        // if tf_quantity is more than db_quantity, error message
+        if (Integer.parseInt(quantityText) > Integer.parseInt(db_quantity)) {
+            // Show error message
+            System.out.println("Error: Quantity exceeds available stock.");
+            return;
+        }
+
+        quantityText = tf_quantity.getText();
+
+        // check if product is already in the cart
+        boolean isProductInCart = CustomerDatabaseHandler.isProductInCart(customerID, productID, restaurantID);
+
+        // if product is already in the cart, update the quantity
+        if (isProductInCart) {
+            int maxQuantity = CustomerDatabaseHandler.getMaxQuantityInCart(customerID, productID, restaurantID);
+            int quantityInCart = CustomerDatabaseHandler.getCartQuantity(customerID, productID, restaurantID);
+
+            if (quantityInCart + Integer.parseInt(quantityText) > maxQuantity) {
+                System.out.println("Error: Quantity exceeds available stock in cart.");
+            } else {
+                CustomerDatabaseHandler.addCartQuantity(customerID, productID, restaurantID, quantityText);
+            }
+        } else {
+            // Add product to cart
+            CustomerDatabaseHandler.addToCart(customerID, productID, restaurantID, quantityText);
+            System.out.println("Product added to cart successfully.");
+        }
+    }
+
+    @FXML
+    void addQuantity(ActionEvent event) throws IOException {
+        String input = tf_quantity.getText();
+
+        // Validate input before parsing
+        if (!input.matches("\\d+")) {
+            System.out.println("Error: Quantity must be a number.");
+            tf_quantity.setText("1");
+            return;
+        }
+
+        int currentQuantity = Integer.parseInt(input);
+
+        if (currentQuantity < 1) {
+            System.out.println("Error: Quantity must be at least 1.");
+            tf_quantity.setText("1");
+            return;
+        }
+
+        currentQuantity++;
+        tf_quantity.setText(String.valueOf(currentQuantity));
+    }
+
+    @FXML
+    void deductQuantity(ActionEvent event) throws IOException {
+        String input = tf_quantity.getText();
+
+        // Validate input before parsing
+        if (!input.matches("\\d+")) {
+            System.out.println("Error: Quantity must be a number.");
+            tf_quantity.setText("1");
+            return;
+        }
+
+        int currentQuantity = Integer.parseInt(input);
+
+        if (currentQuantity < 1) {
+            System.out.println("Error: Quantity must be at least 1.");
+            tf_quantity.setText("1");
+            return;
+        }
+
+        currentQuantity--;
+        tf_quantity.setText(String.valueOf(currentQuantity));
+    }
+
 }
