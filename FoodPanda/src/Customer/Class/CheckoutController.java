@@ -2,12 +2,14 @@ package Customer.Class;
 
 import Customer.CustomerDatabaseHandler;
 import Customer.CustomerSession;
+import java.awt.Desktop;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import java.io.IOException;
+import javafx.scene.control.ToggleGroup;
 
 public class CheckoutController {
 
@@ -44,11 +46,15 @@ public class CheckoutController {
     @FXML
     private RadioButton rb_pandapay;
 
+    private ToggleGroup paymentGroup;
     private Button previouslyClickedButton = null;
     private Float tipAmount = 0.0f;
 
     @FXML
     public void initialize() {
+        paymentGroup = new ToggleGroup();
+        rb_cash.setToggleGroup(paymentGroup);
+        rb_pandapay.setToggleGroup(paymentGroup);
         setCheckoutDetails();
         
     }
@@ -67,6 +73,34 @@ public class CheckoutController {
         System.out.println(CustomerSession.getSelectedProductID());
         System.out.println(CustomerSession.getQuantity());
         System.out.println(tipAmount);
+
+        // get the selected payment method
+        // RadioButton selectedRadioButton = (RadioButton) paymentGroup.getSelectedToggle();  
+        
+        // check if current quantity is less than the quantity in the database
+        
+        // generate orderID
+
+        // compute amount (product price * quantity + tipAmount)
+            // if payment method is pandapay, add 2% to the amount
+                // check if pandapay balance is sufficient
+                    // if not sufficient, show error message and return
+                    // if sufficient, deduct the amount from pandapay balance (excluding the tipAmount)
+            
+            // if payment method is cash, no additional charges
+
+        // get customerID, restaurantID, and amount
+
+        // insert orderID, customerID, restaurantID, amount to the database
+
+        // switch scene to receipt page
+    }
+
+    @FXML
+    void paymentMethod(Desktop.ActionEvent event) {
+        RadioButton selectedRadioButton = (RadioButton) event.getSource();
+        String paymentMethod = selectedRadioButton.getText();
+        System.out.println("Selected payment method: " + paymentMethod);
     }
 
     @FXML
