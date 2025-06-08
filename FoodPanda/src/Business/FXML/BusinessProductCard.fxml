@@ -11,22 +11,22 @@
    <children>
       <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="110.0" prefWidth="330.0" style="-fx-border-color: #757575; -fx-border-radius: 10;">
          <children>
-            <ImageView fx:id="productimageshow" fitHeight="100.0" fitWidth="100.0" layoutX="224.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_product" fitHeight="100.0" fitWidth="100.0" layoutX="224.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../../Users/63917/Pictures/Database%20Foods/default_logo2.png" />
                </image>
             </ImageView>
-            <Label fx:id="productnamelbl" layoutX="10.0" layoutY="3.0" prefHeight="26.0" prefWidth="197.0" text="Product Name">
+            <Label fx:id="lbl_productName" layoutX="10.0" layoutY="3.0" prefHeight="26.0" prefWidth="197.0" text="Product Name">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="productpricelbl" layoutX="11.0" layoutY="23.0" prefHeight="18.0" prefWidth="111.0" text="Product Price">
+            <Label fx:id="lbl_productPrice" layoutX="11.0" layoutY="23.0" prefHeight="18.0" prefWidth="111.0" text="Product Price">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
-            <Text fx:id="productdesclbl" fill="#757575" layoutX="12.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Price Product Price Product Price Product Price Product Price Product Price Product Price" wrappingWidth="188.29199981689453">
+            <Text fx:id="lbl_productDesc" fill="#757575" layoutX="12.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Price Product Price Product Price Product Price Product Price Product Price Product Price" wrappingWidth="188.29199981689453">
                <font>
                   <Font size="10.0" />
                </font>

@@ -2,6 +2,10 @@ package Business;
 
 import Database.DatabaseCredentials;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import Business.Class.Product;
 
 public class BusinessDatabaseHandler {
     private static BusinessDatabaseHandler handler = null;
@@ -424,4 +428,35 @@ public class BusinessDatabaseHandler {
         }
         return null;
     }
+
+    // Get products by restaurant ID
+    public static List<Product> getProductsByRestaurantID(String restaurantID) {
+    List<Product> products = new ArrayList<>();
+    String query = "SELECT * FROM product WHERE restaurant_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, restaurantID);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Product product = new Product(
+                rs.getString("product_ID"),
+                rs.getString("restaurant_ID"),
+                rs.getString("product_name"),
+                rs.getString("product_desc"),
+                rs.getInt("product_quantity"),
+                rs.getDouble("product_price"),
+                rs.getString("product_image_path")
+            );
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return products;
+}
+
 }

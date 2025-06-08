@@ -22,7 +22,7 @@
       <Button fx:id="btn_homePageAccount" layoutX="237.0" layoutY="694.0" mnemonicParsing="false" onAction="#toMoveToProfileHandler" prefHeight="43.0" prefWidth="44.0" style="-fx-background-color: transparent;" />
       <ScrollPane hbarPolicy="NEVER" layoutY="208.0" prefHeight="478.0" prefWidth="340.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
          <content>
-            <GridPane prefHeight="474.0" prefWidth="338.0">
+            <GridPane fx:id="productcardGrid" prefHeight="474.0" prefWidth="338.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -48,6 +49,14 @@ public class BusinessAddProductController {
     private Scene scene; 
     private Parent root;
 
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+    Alert alert = new Alert(alertType);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+}
+
     @FXML
     public void toReturntoHomePageAddHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Business/FXML/BusinessHomePage.fxml");
@@ -75,6 +84,15 @@ public class BusinessAddProductController {
             img_productImage.setImage(image);
         }
     }
+    
+    private void clearFields() {
+    tf_productName.clear();
+    tfa_productDescription.clear();
+    tf_productPrice.clear();
+    tf_productQuantity.clear();
+    img_productImage.setImage(null);
+    selectedImageFile = null;
+}
 
     private void saveProduct() {
     String name = tf_productName.getText().trim();
@@ -82,9 +100,10 @@ public class BusinessAddProductController {
     String priceText = tf_productPrice.getText().trim();
     String qtyText = tf_productQuantity.getText().trim();
     String imagePath = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : null;
+    
 
     if (name.isEmpty() || priceText.isEmpty() || qtyText.isEmpty() || imagePath == null) {
-        System.out.println("All fields and image must be filled.");
+        showAlert(Alert.AlertType.WARNING, "Missing Information", "Please fill in all fields and upload an image.");
         return;
     }
 
@@ -107,13 +126,14 @@ public class BusinessAddProductController {
 
 
         if (success) {
-            System.out.println("Product saved successfully!");
+             showAlert(Alert.AlertType.INFORMATION, "Success", "Product saved successfully!");
+            clearFields(); // Clear fields after saving
         } else {
-            System.out.println("Failed to save product.");
+            showAlert(Alert.AlertType.ERROR, "Save Failed", "Failed to save product. Please try again.");
         }
 
     } catch (NumberFormatException e) {
-        System.out.println("Price and Quantity must be valid numbers.");
+         showAlert(Alert.AlertType.ERROR, "Invalid Input", "Price and Quantity must be valid numbers.");
     }
     } 
 }
