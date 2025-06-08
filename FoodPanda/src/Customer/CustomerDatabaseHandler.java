@@ -706,4 +706,26 @@ public class CustomerDatabaseHandler {
         }
         return 0;
     }
+
+    public static String getRestaurantIDinCart(String customerID) {
+        getInstance();
+
+        String query = "SELECT restaurant_ID FROM cart WHERE customer_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("restaurant_ID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant ID in cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
