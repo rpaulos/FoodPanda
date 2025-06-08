@@ -6,6 +6,7 @@ public class CustomerSession {
     private static String address;
     private static String selectedRestaurantID;
     private static String selectedProductID;
+    private static String quantity;
 
     public static void setEmail(String email) {
         CustomerSession.email = email;
@@ -59,9 +60,22 @@ public class CustomerSession {
         selectedProductID = null;
     }
 
+    public static void setQuantity(String quantity) {
+        CustomerSession.quantity = quantity;
+    }
+
+    public static String getQuantity() {
+        return quantity;
+    }
+
     public static void clearSession() {
         email = null;
         selectedRestaurantID = null;
         selectedProductID = null;
+        customerID = null;
+        address = null;
+        selectedProductID = null;
+        quantity = null;
+
     }
 }
