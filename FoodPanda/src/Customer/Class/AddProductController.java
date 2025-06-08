@@ -107,18 +107,40 @@ public class AddProductController {
         //tf_quantity.setText(productQuantity);
     }
 
+    
+    @FXML
+    void buyNow(ActionEvent event) throws IOException {
+        // save the productID to the session
+        CustomerSession.setSelectedProductID(myProductID);
+
+        // save quantity to the session
+        String quantityText = tf_quantity.getText();
+        CustomerSession.setQuantity(quantityText);
+
+        SwitchScene.switchScene(event, "/Customer/FXML/Checkout.fxml");
+    }
+
     @FXML
     void addToCart(ActionEvent event) throws IOException{
         // get the customerID, productID, restaurantID
         String customerID = CustomerSession.getCustomerID();
         String productID = myProductID;
         String restaurantID = CustomerSession.getSelectedRestaurantID();
+        String existingRestaurantID = CustomerDatabaseHandler.getRestaurantIDinCart(customerID);
+
+        if (existingRestaurantID != null && !existingRestaurantID.equals(restaurantID)) {
+            // Show error message if the restaurant ID in the cart does not match the selected restaurant ID
+            System.out.println("Error: You can only add products from one restaurant at a time.");
+            return;
+        }
 
         // get the quanity from the text field
         String quantityText = tf_quantity.getText();
 
         // get the quantity of the product from the database
         String db_quantity = CustomerDatabaseHandler.getProductQuantity(myProductID);
+
+
 
         // if tf_quantity is empty, set it to 1
         if (quantityText == null || quantityText.trim().isEmpty()) {

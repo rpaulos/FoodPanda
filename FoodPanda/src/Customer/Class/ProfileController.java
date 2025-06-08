@@ -85,6 +85,7 @@ public class ProfileController implements Initializable {
 
     @FXML
     public void toLandingPageHandler(ActionEvent event) throws IOException{
+        CustomerSession.clearSession();
         SwitchScene.switchScene(event, "/LandingPage.fxml");
     }
 
