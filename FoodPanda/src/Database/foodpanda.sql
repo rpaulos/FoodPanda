@@ -184,4 +184,4 @@ SELECT * FROM restaurant_location;
 SELECT * FROM cart;
 SELECT * FROM orders;
 
-DROP DATABASE foodpanda;
+-- DROP DATABASE foodpanda;

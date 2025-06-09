@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
+import Customer.Class.CartItem;
 import Customer.Class.ProductCardController;
 import Customer.Class.ProductItem;
 import Customer.Class.RestaurantItem;
@@ -728,4 +729,165 @@ public class CustomerDatabaseHandler {
         }
         return null;
     }
+
+    public static String getTotalPrice(String customerID) {
+        getInstance();
+
+        String query = "SELECT SUM(p.product_price * c.quantity) AS total_price " +
+                       "FROM cart c " +
+                       "JOIN product p ON c.product_ID = p.product_ID " +
+                       "WHERE c.customer_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return String.format("%.2f", result.getDouble("total_price"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting total price: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<CartItem> getCartItems(String customerID) {
+        List<CartItem> cartItems = new ArrayList<>();
+
+        String query = "SELECT c.customer_ID, c.product_ID, p.product_name, p.product_price, p.product_desc, c.quantity " +
+                       "FROM cart c " +
+                       "JOIN product p ON c.product_ID = p.product_ID " +
+                       "WHERE c.customer_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            while (result.next()) {
+                //String customerID = result.getString("customer_ID");
+                String productID = result.getString("product_ID");
+                String productName = result.getString("product_name");
+                String productPrice = result.getString("product_price");
+                String productDesc = result.getString("product_desc");
+                String productQuantity = result.getString("quantity");
+
+                CartItem item = new CartItem(customerID, productID, productName, productPrice, productDesc, productQuantity);
+                cartItems.add(item);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting cart items: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return cartItems;
+    }
+
+    public static String getProductStock(String productID) {
+        getInstance();
+
+        String query = "SELECT product_quantity FROM product WHERE product_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, productID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("product_quantity");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting product stock: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String removeCartItem(String customerID, String productID) {
+        getInstance();
+
+        String query = "DELETE FROM cart WHERE customer_ID = ? AND product_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            pstmt.setString(2, productID);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                return "Item removed from cart successfully.";
+            } else {
+                return "Failed to remove item from cart.";
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error removing cart item: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "Error occurred while removing item from cart.";
+    }
+
+    public static String updateCartItemQuantity(String customerID, String productID, int quantity) {
+        getInstance();
+
+        String query = "UPDATE cart SET quantity = ? WHERE customer_ID = ? AND product_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, quantity);
+            pstmt.setString(2, customerID);
+            pstmt.setString(3, productID);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                return "Quantity updated successfully.";
+            } else {
+                return "Failed to update item quantity.";
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating cart item: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "Error occurred while updating item from cart.";
+    }
+
+    // public static List<RestaurantItem> getFilteredRestaurants(String priceRange) {
+    //     List<RestaurantItem> restaurantItems = new ArrayList<>();
+
+    //     String query = "SELECT r.restaurant_ID, r.restaurant_name, r.restaurant_header_path, l.address, r.price_range " +
+    //            "FROM Restaurant r " +
+    //            "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID " + 
+    //            "WHERE r.price_range = ?";
+
+    //     try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+    //         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+    //         pstmt.setString(1, priceRange); 
+
+    //         try (ResultSet rs = pstmt.executeQuery()) {
+    //             while (rs.next()) {
+    //                 String id = rs.getString("restaurant_ID");
+    //                 String name = rs.getString("restaurant_name");
+    //                 String headerPath = rs.getString("restaurant_header_path");
+    //                 String address = rs.getString("address");
+    //                 String range = rs.getString("price_range"); 
+    //                 restaurantItems.add(new RestaurantItem(name, address, headerPath, id, range));
+    //             }
+    //         }
+
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return restaurantItems;
+    // }
 }

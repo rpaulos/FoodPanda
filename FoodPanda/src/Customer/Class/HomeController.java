@@ -21,6 +21,7 @@ import java.util.Collections;
 import javafx.scene.control.Label;
 
 import Customer.SwitchScene;
+import java.awt.event.ActionEvent;
 
 public class HomeController {
 
@@ -32,6 +33,12 @@ public class HomeController {
 
     @FXML
     private Button btn_grocery;
+
+    @FXML
+    private Button btn_cart;
+
+    @FXML
+    private Button btn_likes;
 
     @FXML
     private GridPane cardGrid;
@@ -137,6 +144,14 @@ public class HomeController {
         
         CustomerSession.setAddress(address);
         lbl_location.setText(address);
+    }
+
+    public void toCartHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Customer/FXML/Cart.fxml");
+    }
+
+    public void toLikesHandler() throws IOException{
+
     }
 }
 
