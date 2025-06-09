@@ -459,4 +459,39 @@ public class BusinessDatabaseHandler {
     return products;
 }
 
+    // Update product name by product ID
+    public static boolean updateProductName(String productID, String productName, String productDescription) {
+    String query = "UPDATE product SET product_name = ?, product_desc = ? WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, productName);
+        pstmt.setString(2, productDescription);
+        pstmt.setString(3, productID);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+    public static boolean deleteProductByID(String productID) {
+    String query = "DELETE FROM product WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, productID);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+
 }

@@ -1,10 +1,15 @@
 package Business.Class;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import Business.BusinessDatabaseHandler;
+import Business.BusinessSession;
 import Business.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,7 +17,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class BusinessProfileController {
+public class BusinessProfileController implements Initializable {
 
     @FXML
     private Button btn_businessHome;
@@ -39,15 +44,35 @@ public class BusinessProfileController {
     private Hyperlink hplnk_termPolicies;
 
     @FXML
-    private Label lbl_ownerName;
+    private Label lbl_restaurantName;
 
     private Stage stage;
     private Scene scene; 
     private Parent root;
 
+    public static String restaurantID;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        restaurantID = BusinessSession.getRestaurantID();
+        setRestaurantName();
+    }
+
+    private void setRestaurantName() {
+        String restaurantName = BusinessDatabaseHandler.getRestaurantName(restaurantID);
+        lbl_restaurantName.setText(restaurantName);
+        System.out.println("Restaurant Name: " + restaurantName);
+        System.out.println("Restaurant ID: " + restaurantID);
+    }
+
     @FXML
     public void toMoveToHomeHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Business/FXML/BusinessHomePage.fxml");
+    }
+
+    @FXML
+    public void toMoveToEditProductHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessEditProduct.fxml");
     }
     
     @FXML
