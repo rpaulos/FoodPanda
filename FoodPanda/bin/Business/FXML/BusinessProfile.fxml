@@ -17,7 +17,7 @@
          </image>
       </ImageView>
       <Button fx:id="btn_businessProducts" layoutX="24.0" layoutY="181.0" mnemonicParsing="false" onAction="#toMoveToEditProductHandler" prefHeight="56.0" prefWidth="83.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="btn_businessStocks" layoutX="129.0" layoutY="181.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="83.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_businessStocks" layoutX="129.0" layoutY="181.0" mnemonicParsing="false" onAction="#toMoveToEditStockHandler" prefHeight="56.0" prefWidth="83.0" style="-fx-background-color: transparent;" />
       <Button fx:id="btn_businessPrices" layoutX="233.0" layoutY="181.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="83.0" style="-fx-background-color: transparent;" />
       <Button fx:id="btn_businessPay" layoutX="23.0" layoutY="259.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="294.0" style="-fx-background-color: transparent;" />
       <Button fx:id="btn_businessLogout" layoutX="23.0" layoutY="634.0" mnemonicParsing="false" onAction="#toMoveToLandingPageHandler" prefHeight="34.0" prefWidth="294.0" style="-fx-background-color: transparent;" />

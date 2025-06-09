@@ -138,38 +138,3 @@ public class BusinessEditProductController {
         alert.showAndWait();
     }
 }
-
-
-// package Business.Class;
-
-// import javafx.fxml.FXML;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.TableColumn;
-// import javafx.scene.control.TableView;
-// import javafx.scene.control.TextField;
-
-// public class BusinessEditProductController {
-
-//     @FXML
-//     private Button btn_deleteProduct;
-
-//     @FXML
-//     private Button btn_updateProduct;
-
-//     @FXML
-//     private TableColumn<?, ?> col_productId;
-
-//     @FXML
-//     private TableColumn<?, ?> col_productName;
-
-//     @FXML
-//     private TableView<?> tbl_productView;
-
-//     @FXML
-//     private TextField tf_eproductID;
-
-//     @FXML
-//     private TextField tf_eproductName;
-
-    
-// }

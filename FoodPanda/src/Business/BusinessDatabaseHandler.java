@@ -492,6 +492,23 @@ public class BusinessDatabaseHandler {
     }
 }
 
+    public static boolean updateProductQuantity(String productId, int productQuantity) {
+    String query = "UPDATE product SET product_quantity = ? WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setInt(1, productQuantity);
+        pstmt.setString(2, productId);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
 
 
 }

@@ -79,4 +79,9 @@ public class BusinessProfileController implements Initializable {
     public void toMoveToLandingPageHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/LandingPage.fxml");
     }
+
+    @FXML
+    public void toMoveToEditStockHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessEditStock.fxml");
+    }
 }
