@@ -43,7 +43,6 @@ public class BusinessEditStockController {
 
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
-    // private final String ownerEmail = BusinessSession.getEmail();
 
     @FXML
     public void toReturntoProfilePageStockHandler(ActionEvent event) throws IOException {
@@ -120,43 +119,3 @@ public class BusinessEditStockController {
         alert.showAndWait();
     }
 }
-
-
-// package Business.Class;
-
-// import javafx.fxml.FXML;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.TableColumn;
-// import javafx.scene.control.TableView;
-// import javafx.scene.control.TextField;
-
-// public class BusinessEditStockController {
-    
-//     @FXML
-//     private Button btn_sreturntoProfile;
-
-//     @FXML
-//     private Button btn_updateProductQuantity;
-
-//     @FXML
-//     private TableColumn<?, ?> col_productQuantity;
-
-//     @FXML
-//     private TableColumn<?, ?> col_stockproductId;
-
-//     @FXML
-//     private TableColumn<?, ?> col_stockproductName;
-
-//     @FXML
-//     private TableView<?> tbl_stockView;
-
-//     @FXML
-//     private TextField tf_sproductID;
-
-//     @FXML
-//     private TextField tf_sproductName;
-
-//     @FXML
-//     private TextField tf_sproductQuantity;
-
-// }

@@ -48,8 +48,6 @@ public class BusinessEditProductController {
 
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
-    private final String ownerEmail = BusinessSession.getEmail();
-
     @FXML
     public void toReturntoProfilePageAddHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Business/FXML/BusinessProfile.fxml");

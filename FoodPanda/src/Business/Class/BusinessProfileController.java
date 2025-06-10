@@ -1,6 +1,9 @@
 package Business.Class;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -83,5 +86,20 @@ public class BusinessProfileController implements Initializable {
     @FXML
     public void toMoveToEditStockHandler(ActionEvent event) throws IOException{
         SwitchScene.switchScene(event, "/Business/FXML/BusinessEditStock.fxml");
+    }
+
+    @FXML
+    public void toMoveToEditPriceHandler(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Business/FXML/BusinessEditPrice.fxml");
+    }
+
+    @FXML
+    public void toGoToHelpCenterLink(ActionEvent event) throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI("https://www.foodpanda.ph/contents/contact.htm"));
+    }
+
+    @FXML
+    public void toGoToTermsAndPoliciesLink(ActionEvent event) throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI("https://www.foodpanda.ph/contents/terms-and-conditions.htm"));
     }
 }
