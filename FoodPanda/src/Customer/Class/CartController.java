@@ -1,5 +1,7 @@
 package Customer.Class;
 
+import Business.SwitchScene;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -34,9 +36,15 @@ public class CartController {
         loadCartData();
     }
 
+    @FXML
+    void back(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
+    }
+
     private void loadCartData() {
         String totalPrice = Customer.CustomerDatabaseHandler.getTotalPrice(customerID);
         lbl_price.setText(totalPrice);
+        Customer.CustomerSession.setOrderAmount(totalPrice);
 
         System.out.println("Total Price: " +totalPrice);
 
@@ -70,6 +78,15 @@ public class CartController {
             e.printStackTrace();
     }
 
+    }
+    
+    @FXML
+    void payment(ActionEvent event) throws IOException {
+        //set the total price in the session
+        Customer.CustomerSession.setTotalPrice(lbl_price.getText());
+
+        SwitchScene.switchScene(event, "/Customer/FXML/Checkout.fxml");
+        System.out.println(Customer.CustomerSession.getTotalPrice());
     }
 
 }

@@ -5,10 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
@@ -860,6 +862,184 @@ public class CustomerDatabaseHandler {
         }
         return "Error occurred while updating item from cart.";
     }
+
+    public static String generateOrderID() {
+        getInstance();
+
+        String currentYear = String.valueOf(Year.now().getValue());
+        String prefix = currentYear + "-";
+        String query = "SELECT order_ID FROM orders WHERE order_ID LIKE ? ORDER BY order_ID DESC LIMIT 1";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, prefix + "%");
+            ResultSet result = pstmt.executeQuery();
+
+            int nextNumber = 1;
+
+            if (result.next()) {
+                String lastID = result.getString("order_ID");
+                String numberPart = lastID.split("-")[1];
+                nextNumber = Integer.parseInt(numberPart) + 1;
+            }
+
+            return String.format("%s%05d", prefix, nextNumber);
+
+        } catch (SQLException e) {
+            System.out.println("Error getting order ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+        
+    }
+
+    public static void clearCart(String customerID) {
+        getInstance();
+
+        String query = "DELETE FROM cart WHERE customer_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Cart cleared successfully.");
+            } else {
+                System.out.println("Failed to clear cart.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error clearing cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertOrder(String orderID, String customerID, String restaurantID, float totalAmount) {
+        getInstance();
+
+        String query = "INSERT INTO orders (order_ID, customer_ID, restaurant_ID, amount) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, orderID);
+            pstmt.setString(2, customerID);
+            pstmt.setString(3, restaurantID);
+            pstmt.setFloat(4, totalAmount);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Order inserted successfully.");
+            } else {
+                System.out.println("Failed to insert order.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error inserting order: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean checkoutCart(String orderID, String customerID, String totalAmount) {
+        Connection conn = getDBConnection();
+        PreparedStatement updateStockStmt = null;
+        PreparedStatement getCartItemsStmt = null;
+        PreparedStatement insertOrderStmt = null;
+        PreparedStatement deleteCartStmt = null;
+
+        try {
+            conn.setAutoCommit(false); // Start transaction
+
+            // 1. Get cart items
+            String getCartItemsQuery = "SELECT * FROM cart WHERE customer_ID = ?";
+            getCartItemsStmt = conn.prepareStatement(getCartItemsQuery);
+            getCartItemsStmt.setString(1, customerID);
+            ResultSet cartItems = getCartItemsStmt.executeQuery();
+
+            String restaurantID = null;
+
+            // 2. Update product stock
+            while (cartItems.next()) {
+                String productID = cartItems.getString("product_ID");
+                int quantity = cartItems.getInt("quantity");
+                restaurantID = cartItems.getString("restaurant_ID"); // assume all from one resto
+
+                // Deduct stock
+                String updateStockQuery = "UPDATE product SET product_quantity = product_quantity - ? WHERE product_ID = ?";
+                updateStockStmt = conn.prepareStatement(updateStockQuery);
+                updateStockStmt.setInt(1, quantity);
+                updateStockStmt.setString(2, productID);
+                updateStockStmt.executeUpdate();
+            }
+
+            // 3. Insert into orders
+            //String orderID = UUID.randomUUID().toString();
+            String insertOrderQuery = "INSERT INTO orders (order_ID, customer_ID, restaurant_ID, amount) VALUES (?, ?, ?, ?)";
+            insertOrderStmt = conn.prepareStatement(insertOrderQuery);
+            insertOrderStmt.setString(1, orderID);
+            insertOrderStmt.setString(2, customerID);
+            insertOrderStmt.setString(3, restaurantID);
+            insertOrderStmt.setBigDecimal(4, new BigDecimal(totalAmount));
+            insertOrderStmt.executeUpdate();
+
+            // 4. Clear the cart
+            // String deleteCartQuery = "DELETE FROM cart WHERE customer_ID = ?";
+            // deleteCartStmt = conn.prepareStatement(deleteCartQuery);
+            // deleteCartStmt.setString(1, customerID);
+            // deleteCartStmt.executeUpdate();
+
+            conn.commit();
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            try {
+                if (updateStockStmt != null) updateStockStmt.close();
+                if (getCartItemsStmt != null) getCartItemsStmt.close();
+                if (insertOrderStmt != null) insertOrderStmt.close();
+                if (deleteCartStmt != null) deleteCartStmt.close();
+                if (conn != null) conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String getRestaurantLocation(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT l.address FROM Restaurant r " +
+                       "JOIN restaurant_location l ON r.restaurant_location_ID = l.restaurant_location_ID " +
+                       "WHERE r.restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("address");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant location: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     // public static List<RestaurantItem> getFilteredRestaurants(String priceRange) {
     //     List<RestaurantItem> restaurantItems = new ArrayList<>();

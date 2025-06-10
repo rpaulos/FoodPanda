@@ -1,5 +1,6 @@
 package Customer.Class;
 
+import Business.SwitchScene;
 import Customer.CustomerDatabaseHandler;
 import Customer.CustomerSession;
 import java.awt.Desktop;
@@ -10,6 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import java.io.IOException;
 import javafx.scene.control.ToggleGroup;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CheckoutController {
 
@@ -35,6 +43,9 @@ public class CheckoutController {
     private Button btn_notNow;
 
     @FXML
+    private Label txt_price;
+
+    @FXML
     private Label lbl_deliveryAddress;
 
     @FXML
@@ -56,7 +67,6 @@ public class CheckoutController {
         rb_cash.setToggleGroup(paymentGroup);
         rb_pandapay.setToggleGroup(paymentGroup);
         setCheckoutDetails();
-        
     }
 
     private void setCheckoutDetails() {
@@ -64,37 +74,34 @@ public class CheckoutController {
         String restaurantName = CustomerDatabaseHandler.getRestaurantName(CustomerSession.getSelectedRestaurantID());
         lbl_restaurantName.setText(restaurantName);
         
+        String total = CustomerSession.getTotalPrice();
+        txt_price.setText(total);
+        
         String deliveryAddress = CustomerSession.getAddress() + ", Manila, Philippines";
         lbl_deliveryAddress.setText(deliveryAddress);
     }
-    
+
     @FXML
-    void checkout(ActionEvent event) throws IOException {
-        System.out.println(CustomerSession.getSelectedProductID());
-        System.out.println(CustomerSession.getQuantity());
-        System.out.println(tipAmount);
+    void handleCheckout(ActionEvent event) throws IOException {
+        getDistance();
+        computeDeliveryFee();
+        computeTotalAmount();
 
-        // get the selected payment method
-        // RadioButton selectedRadioButton = (RadioButton) paymentGroup.getSelectedToggle();  
-        
-        // check if current quantity is less than the quantity in the database
-        
-        // generate orderID
+        String customerID = CustomerSession.getCustomerID();
+        String totalAmount = CustomerSession.getTotalPrice();
+        String orderID = CustomerDatabaseHandler.generateOrderID();
 
-        // compute amount (product price * quantity + tipAmount)
-            // if payment method is pandapay, add 2% to the amount
-                // check if pandapay balance is sufficient
-                    // if not sufficient, show error message and return
-                    // if sufficient, deduct the amount from pandapay balance (excluding the tipAmount)
-            
-            // if payment method is cash, no additional charges
+        boolean success = CustomerDatabaseHandler.checkoutCart(orderID, customerID, totalAmount);
 
-        // get customerID, restaurantID, and amount
-
-        // insert orderID, customerID, restaurantID, amount to the database
-
-        // switch scene to receipt page
+        if (success) {
+            System.out.println("Checkout successful!");
+            SwitchScene.switchScene(event, "/Customer/FXML/Receipt.fxml");
+        } else {
+            System.out.println("Checkout failed.");
+            // optionally show alert
+        }
     }
+
 
     @FXML
     void paymentMethod(Desktop.ActionEvent event) {
@@ -120,13 +127,124 @@ public class CheckoutController {
         if (clickedButton == btn_notNow) {
             System.out.println("No tip");
             tipAmount = 0.0f;
+            CustomerSession.setTip("0.00");
         } else {
             tipAmount = Float.parseFloat(buttonText);
             String formattedTip = String.format("%.2f", tipAmount);
             tipAmount = Float.parseFloat(formattedTip);
-            System.out.println("Tip amount: " + formattedTip);
+            CustomerSession.setTip(formattedTip);
         }
-        
+
+    }
+
+    private static String getDistance() {
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
+        String customerID = CustomerSession.getCustomerID();
+
+        String restaurantLocation = CustomerDatabaseHandler.getRestaurantLocation(restaurantID);
+        restaurantLocation = restaurantLocation + ", Manila, Philippines";
+
+        String address = CustomerSession.getAddress();
+        address = address + ", Manila, Philippines";
+
+        try {
+            String API_KEY = "AIzaSyBuklDiWOw9gdQNHS1TrlZQ85x_ZVtu7A0";
+            String origin = restaurantLocation;
+            String destination = address;
+
+            String urlStr = String.format(
+                "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s",
+                origin.replace(" ", "+"),
+                destination.replace(" ", "+"),
+                API_KEY
+            );
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(conn.getInputStream())
+            );
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            System.out.println("Raw JSON response: " + response.toString());
+
+            // Parse the JSON response
+            JSONObject json = new JSONObject(response.toString());
+            JSONArray rows = json.getJSONArray("rows");
+            JSONObject elements = rows.getJSONObject(0).getJSONArray("elements").getJSONObject(0);
+
+            JSONObject jsonDistance = elements.getJSONObject("distance");
+            JSONObject jsonDuration = elements.getJSONObject("duration");
+
+            String distanceText = jsonDistance.getString("text");
+            String durationText = jsonDuration.getString("text");
+
+            float distance = Float.parseFloat(distanceText.replace(" km", "").trim());
+
+            int duration = 0;
+
+            if (durationText.contains("hour")) {
+                // Extract hours
+                String[] parts = durationText.split("hour");
+                int hours = Integer.parseInt(parts[0].trim());
+                duration += hours * 60;
+
+                // Check if there are minutes after "hour"
+                if (parts.length > 1 && parts[1].contains("min")) {
+                    int minutes = Integer.parseInt(parts[1].replaceAll("[^\\d]", ""));
+                    duration += minutes;
+                }
+            } else {
+                // Only minutes (e.g. "45 mins")
+                duration = Integer.parseInt(durationText.replaceAll("[^\\d]", ""));
+            }
+
+            CustomerSession.setDistance(distance);
+            CustomerSession.setDuration(duration + 15);
+
+            System.out.println("Distance: " + distance);
+            System.out.println("Duration: " + duration);
+            
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "hello";
+    }
+
+    private static void computeDeliveryFee() {
+        float distance = CustomerSession.getDistance();
+        float deliveryFee;
+
+        if (distance <= 1) {
+            deliveryFee = 29;
+        } else {
+            deliveryFee = 29 + (distance - 1) * 5;
+        }
+
+        CustomerSession.setdeliveryFee(deliveryFee);
+    }
+
+    private static void computeTotalAmount() {
+        float orderAmount = Float.parseFloat(CustomerSession.getOrderAmount());
+        float tip = Float.parseFloat(CustomerSession.getTip());
+        float  deliveryFee = CustomerSession.getDeliveryFee();
+
+        Float totalAmount = deliveryFee + tip + orderAmount;
+
+        String totalPrice = String.valueOf(totalAmount);
+
+        CustomerSession.setTotalPrice(totalPrice);
     }
 
 }

@@ -73,7 +73,7 @@ public class ProductCardController {
         }
 
         // For testing purposes only
-        productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
+        //productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
 
         img_product_image.setImage(productImage);
     }

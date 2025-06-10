@@ -47,6 +47,7 @@ public class CardController {
         lbl_restaurantLoc.setText(address);
         
         // Set the restaurant header image
+        // String imagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + restaurantName + ".png";
         File imageFile = new File(headerPath);
         Image headerImage;
 

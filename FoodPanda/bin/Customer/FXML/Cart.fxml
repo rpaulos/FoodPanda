@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Customer.Class.CartController">
    <children>
@@ -19,17 +19,20 @@
             <Image url="@../../User%20Interface/Cart.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_back" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_back" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btn_payment" layoutX="18.0" layoutY="690.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="303.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_payment" layoutX="18.0" layoutY="690.0" mnemonicParsing="false" onAction="#payment" prefHeight="33.0" prefWidth="303.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="lbl_price" layoutX="268.0" layoutY="643.0" text="Total Price" textAlignment="RIGHT" />
+      <Label fx:id="lbl_price" alignment="CENTER_RIGHT" layoutX="217.0" layoutY="643.0" prefHeight="18.0" prefWidth="107.0" text="Total Price" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
       <ScrollPane hbarPolicy="NEVER" layoutX="-3.0" layoutY="145.0" prefHeight="481.0" prefWidth="340.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <content>
             <GridPane fx:id="cardGrid" prefHeight="1.0" prefWidth="340.0">
@@ -45,5 +48,10 @@
             </GridPane>
          </content>
       </ScrollPane>
+      <Label fx:id="lbl_restaurantName" layoutX="46.0" layoutY="32.0" text="Label">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
