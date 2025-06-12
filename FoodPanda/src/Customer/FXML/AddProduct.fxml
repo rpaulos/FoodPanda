@@ -32,10 +32,10 @@
       <Button fx:id="btn_add" layoutX="288.0" layoutY="322.0" mnemonicParsing="false" onAction="#addQuantity" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: transparent;" />
       <Button fx:id="btn_subtract" layoutX="205.0" layoutY="322.0" mnemonicParsing="false" onAction="#deductQuantity" prefHeight="26.0" prefWidth="32.0" style="-fx-background-color: transparent;" />
       <TextField fx:id="tf_quantity" alignment="TOP_CENTER" layoutX="241.0" layoutY="321.0" prefHeight="18.0" prefWidth="38.0" style="-fx-background-color: transparent;" text="1" />
-      <Button fx:id="btn_food" layoutX="24.0" layoutY="691.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="btn_grocery" layoutX="109.0" layoutY="692.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="btn_account" layoutX="280.0" layoutY="692.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="btn_search" layoutX="196.0" layoutY="693.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_food" layoutX="24.0" layoutY="691.0" mnemonicParsing="false" onAction="#toHome" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_grocery" layoutX="109.0" layoutY="692.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_account" layoutX="280.0" layoutY="692.0" mnemonicParsing="false" onAction="#toProfile" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_search" layoutX="197.0" layoutY="692.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
       <Label fx:id="lbl_price" layoutX="271.0" layoutY="244.0" prefHeight="23.0" prefWidth="61.0" text="200.00">
          <font>
             <Font name="System Bold" size="15.0" />
@@ -51,5 +51,7 @@
             <Image url="@../../User%20Interface/Restaurant%20Product%20Header/default_product_header.png" />
          </image>
       </ImageView>
+      <Button fx:id="btn_like" layoutX="253.0" layoutY="21.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_cart" layoutX="298.0" layoutY="23.0" mnemonicParsing="false" onAction="#toCart" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;" />
    </children>
 </AnchorPane>

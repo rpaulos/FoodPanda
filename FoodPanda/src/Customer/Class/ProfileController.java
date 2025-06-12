@@ -29,10 +29,22 @@ public class ProfileController implements Initializable {
     private Button btn_favourites;
 
     @FXML
+    private Button btn_food;
+
+    @FXML
     private Button btn_fpbusiness;
 
     @FXML
+    private Button btn_grocery;
+
+    @FXML
     private Button btn_helpcenter;
+
+    @FXML
+    private Button btn_likes;
+
+    @FXML
+    private Button btn_logout;
 
     @FXML
     private Button btn_orders;
@@ -41,22 +53,16 @@ public class ProfileController implements Initializable {
     private Button btn_pandapay;
 
     @FXML
-    private Button btn_grocery;
-
-    @FXML
-    private Button btn_food;
-
-    @FXML
     private Button btn_search;
 
     @FXML
-    private Button btn_termspolicies;
-    
-    @FXML
-    private Label lbl_name;
+    private Button btn_settings;
 
     @FXML
-    private Button btn_logout;
+    private Button btn_termspolicies;
+
+    @FXML
+    private Label lbl_name;
 
     private Stage stage;
     private Scene scene; 
@@ -91,7 +97,7 @@ public class ProfileController implements Initializable {
 
     @FXML
     public void toHelpCenterHandler(ActionEvent event) throws URISyntaxException, IOException{
-        Desktop.getDesktop().browse(new URI("https://www.foodpanda.com/contact/"));
+        Desktop.getDesktop().browse(new URI("https://mail.google.com/mail/u/0/#inbox"));
     }
     
     @FXML
@@ -102,5 +108,10 @@ public class ProfileController implements Initializable {
     @FXML
     public void toTermsAndPoliciesHandler(ActionEvent event) throws URISyntaxException, IOException{
         Desktop.getDesktop().browse(new URI("https://www.foodpanda.ph/contents/terms-and-conditions.htm"));
+    }
+
+    @FXML
+    public void toComingSoon(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/ComingSoon.fxml");
     }
 }

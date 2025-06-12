@@ -23,11 +23,11 @@
                   <Image url="@../../User%20Interface/Home.png" />
                </image>
             </ImageView>
-            <Button fx:id="btn_grocery" layoutX="110.0" layoutY="696.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;">
+            <Button fx:id="btn_grocery" layoutX="110.0" layoutY="696.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_Search" layoutX="197.0" layoutY="694.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;">
+            <Button fx:id="btn_Search" layoutX="197.0" layoutY="694.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -36,8 +36,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <Button fx:id="btn_cart" layoutX="293.0" layoutY="14.0" mnemonicParsing="false" onAction="#toCartHandler" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;" />
-            <Button fx:id="btn_likes" layoutX="249.0" layoutY="13.0" mnemonicParsing="false" onAction="#toLikesHandler" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;" />
-            <TextField layoutX="60.0" layoutY="77.0" prefHeight="26.0" prefWidth="244.0" promptText="What are you craving?" style="-fx-background-color: transparent;">
+            <TextField layoutX="60.0" layoutY="74.0" prefHeight="26.0" prefWidth="244.0" promptText="What are you craving?" style="-fx-background-color: transparent;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
@@ -50,7 +49,7 @@
                   <Font name="System Bold" size="11.0" />
                </font>
             </Label>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="319.2" prefHeight="361.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="319.2" prefHeight="401.0" prefWidth="340.0" style="-fx-background-color: transparent; -fx-background-radius: 15;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
                <content>
                   <GridPane fx:id="cardGrid" alignment="TOP_CENTER" hgap="3.0" prefHeight="26.0" prefWidth="338.0" style="-fx-background-color: #ffffff; -fx-alignment: center;">
                     <columnConstraints>
@@ -65,6 +64,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
+            <Button fx:id="btn_like" layoutX="249.0" layoutY="14.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="38.0" prefWidth="35.0" style="-fx-background-color: transparent;" />
          </children>
       </AnchorPane>
    </children>

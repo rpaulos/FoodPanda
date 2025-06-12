@@ -5,10 +5,6 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,6 +13,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import Customer.SwitchScene;
 
@@ -86,48 +84,56 @@ public class SignUpController {
 
         // Checks if all fields are filled out
         if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || selectedCity == null || address.isEmpty() || zip.isEmpty()) {
-            System.out.println("Please fill out all fields");
+            // System.out.println("Please fill out all fields");
+            showAlert(AlertType.ERROR, "Form Incomplete", "Please fill out all fields.");
             return;
         }
 
         // Email domain validation
         if (!email.matches("^[\\w.-]+@gmail\\.com")) {
-            System.out.println("Invalid Email");
+            // System.out.println("Invalid Email");
+            showAlert(AlertType.ERROR, "Invalid Email", "Email must be a valid @gmail.com address.");
             return;
         }
 
         // Checks if email already exists in the database
         if (CustomerDatabaseHandler.emailExists(email)) {
-            System.out.println("Email already registered");
+            // System.out.println("Email already registered");
+            showAlert(AlertType.ERROR, "Email Exists", "This email is already registered.");
             return;
         }
 
         // Checks if phone number is the correct length
         if (!phoneNumber.matches("^09\\d{9}$")) {
-            System.out.println("Invalid phone number.");
+            // System.out.println("Invalid phone number.");
+            showAlert(AlertType.ERROR, "Invalid Phone Number", "Phone number must start with 09 and contain 11 digits.");
             return;
         }
 
         // Checks if phone number already exists in the database
         if (CustomerDatabaseHandler.phoneNumberExists(phoneNumber)) {
-            System.out.println("Phone number already registered");
+            // System.out.println("Phone number already registered");
+            showAlert(AlertType.ERROR, "Phone Number Exists", "This phone number is already registered.");
             return;
         }
 
         // Checks if password is less than 6 characters
         if (password.length() < 6) {
-            System.out.println("Password must be at least 6 characters long.");
+            // System.out.println("Password must be at least 6 characters long.");
+            showAlert(AlertType.ERROR, "Weak Password", "Password must be at least 6 characters long.");
             return;
         }
 
         // Checks if zip code is 4 characters long
         if (zip.length() != 4) {
-            System.out.println("Invalid Zip");
+            // System.out.println("Invalid Zip");
+            showAlert(AlertType.ERROR, "Invalid ZIP Code", "ZIP code must be 4 digits long.");
             return;
         }
 
         if (!cb_terms.isSelected()) {
-            System.out.println("You must agree to the terms and conditions.");
+            // System.out.println("You must agree to the terms and conditions.");
+            showAlert(AlertType.ERROR, "Terms Not Accepted", "You must agree to the terms and conditions.");
             return;
         }
 
@@ -138,8 +144,17 @@ public class SignUpController {
         CustomerDatabaseHandler.insertCustomer(email, password, firstName, lastName, phoneNumber, customerLocationID);
 
         // Pop up message for account created
+        showAlert(AlertType.INFORMATION, "Success", "Account created successfully!");
 
         // Go back to startup page
         SwitchScene.switchScene(event, "/Customer/FXML/StartUp.fxml");
+    }
+
+    private void showAlert(AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

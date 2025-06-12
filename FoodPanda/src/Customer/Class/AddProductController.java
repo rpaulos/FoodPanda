@@ -22,6 +22,10 @@ import javafx.scene.control.Button;
 import Customer.CustomerSession;
 import Customer.CustomerDatabaseHandler;
 
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class AddProductController {
 
     @FXML
@@ -40,16 +44,25 @@ public class AddProductController {
     private Button btn_back;
 
     @FXML
+    private Button btn_cart;
+
+    @FXML
     private Button btn_food;
 
     @FXML
     private Button btn_grocery;
 
     @FXML
+    private Button btn_like;
+
+    @FXML
     private Button btn_search;
 
     @FXML
     private Button btn_subtract;
+
+    @FXML
+    private ImageView img_product_header;
 
     @FXML
     private Label lbl_price;
@@ -63,10 +76,16 @@ public class AddProductController {
     @FXML
     private Text txt_desc;
 
-    @FXML
-    private ImageView img_product_header;
-
     public static String myProductID;
+    //public static String restaurantName;
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     void backToRestaurant(ActionEvent event) throws IOException {
@@ -79,14 +98,20 @@ public class AddProductController {
 
     public void setAddProductData() {
         String productID = myProductID;
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
         
         String productName = CustomerDatabaseHandler.getProductName(productID);
         String productPrice = CustomerDatabaseHandler.getProductPrice(productID);
         String productDescription = CustomerDatabaseHandler.getProductDescription(productID);
         String productQuantity = CustomerDatabaseHandler.getProductQuantity(productID);
 
+        String restaurantName = CustomerDatabaseHandler.getRestaurantName(restaurantID);
+
         // Set the product header image
-        String headerPath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Product Header/" + productID + ".png";
+        String headerPath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Product Header/" + restaurantName + "/" + productName + ".png";
+        
+        System.out.println(restaurantName);
+        System.out.println(productName);
         
         File imageFile = new File(headerPath);
         Image headerImage;
@@ -130,7 +155,9 @@ public class AddProductController {
 
         if (existingRestaurantID != null && !existingRestaurantID.equals(restaurantID)) {
             // Show error message if the restaurant ID in the cart does not match the selected restaurant ID
-            System.out.println("Error: You can only add products from one restaurant at a time.");
+            //System.out.println("Error: You can only add products from one restaurant at a time.");
+            showAlert(Alert.AlertType.WARNING, "Add Product Unsuccessful", "You can only add products from one restaurant at a time.");
+
             return;
         }
 
@@ -148,7 +175,8 @@ public class AddProductController {
         }
 
         if (!String.valueOf(quantityText).matches("\\d+")) {
-            System.out.println("Error: Quantity must be a number.");
+            //System.out.println("Error: Quantity must be a number.");
+            showAlert(Alert.AlertType.WARNING, "Add Product Unsuccessful", "Quantity must be a number.");
             tf_quantity.setText("1");
             return;
         }
@@ -156,7 +184,8 @@ public class AddProductController {
         // if tf_quantity is more than db_quantity, error message
         if (Integer.parseInt(quantityText) > Integer.parseInt(db_quantity)) {
             // Show error message
-            System.out.println("Error: Quantity exceeds available stock.");
+            //System.out.println("Error: Quantity exceeds available stock.");
+            showAlert(Alert.AlertType.WARNING, "Add Product Unsuccessful", "Quantity exceeds available stock.");
             return;
         }
 
@@ -171,14 +200,17 @@ public class AddProductController {
             int quantityInCart = CustomerDatabaseHandler.getCartQuantity(customerID, productID, restaurantID);
 
             if (quantityInCart + Integer.parseInt(quantityText) > maxQuantity) {
-                System.out.println("Error: Quantity exceeds available stock in cart.");
+                //System.out.println("Error: Quantity exceeds available stock in cart.");
+                showAlert(Alert.AlertType.WARNING, "Add Product Unsuccessful", "Quantity exceeds available stock");
             } else {
                 CustomerDatabaseHandler.addCartQuantity(customerID, productID, restaurantID, quantityText);
             }
         } else {
             // Add product to cart
             CustomerDatabaseHandler.addToCart(customerID, productID, restaurantID, quantityText);
-            System.out.println("Product added to cart successfully.");
+            //System.out.println("Product added to cart successfully.");
+            showAlert(Alert.AlertType.INFORMATION, "Add Product Successful", "Product added to cart successfully.");
+
         }
     }
 
@@ -188,7 +220,8 @@ public class AddProductController {
 
         // Validate input before parsing
         if (!input.matches("\\d+")) {
-            System.out.println("Error: Quantity must be a number.");
+            //System.out.println("Error: Quantity must be a number.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Input", "Quantity must be a number.");
             tf_quantity.setText("1");
             return;
         }
@@ -196,7 +229,8 @@ public class AddProductController {
         int currentQuantity = Integer.parseInt(input);
 
         if (currentQuantity < 1) {
-            System.out.println("Error: Quantity must be at least 1.");
+            //System.out.println("Error: Quantity must be at least 1.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Quantity", "Quantity must be at least 1.");
             tf_quantity.setText("1");
             return;
         }
@@ -211,7 +245,8 @@ public class AddProductController {
 
         // Validate input before parsing
         if (!input.matches("\\d+")) {
-            System.out.println("Error: Quantity must be a number.");
+            //System.out.println("Error: Quantity must be a number.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Input", "Quantity must be a number.");
             tf_quantity.setText("1");
             return;
         }
@@ -219,13 +254,34 @@ public class AddProductController {
         int currentQuantity = Integer.parseInt(input);
 
         if (currentQuantity < 1) {
-            System.out.println("Error: Quantity must be at least 1.");
+            //System.out.println("Error: Quantity must be at least 1.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Quantity", "Quantity must be at least 1.");
             tf_quantity.setText("1");
             return;
         }
 
         currentQuantity--;
         tf_quantity.setText(String.valueOf(currentQuantity));
+    }
+
+    @FXML
+    public void toComingSoon(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/ComingSoon.fxml");
+    }
+
+    @FXML
+    public void toCart(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Cart.fxml");
+    }
+
+    @FXML
+    public void toHome(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Home.fxml");
+    }
+
+    @FXML
+    public void toProfile(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Profile.fxml");
     }
 
 }

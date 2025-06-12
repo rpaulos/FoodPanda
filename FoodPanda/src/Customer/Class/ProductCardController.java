@@ -1,5 +1,6 @@
 package Customer.Class;
 
+import Customer.CustomerDatabaseHandler;
 import java.io.File;
 
 import javafx.fxml.FXML;
@@ -50,6 +51,14 @@ public class ProductCardController {
     }
 
     public void setData(String productID, String name, String price, String description, String imagePath) {
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
+        String restaurantName = CustomerDatabaseHandler.getRestaurantName(restaurantID);
+        String productName = CustomerDatabaseHandler.getProductName(productID);
+
+        System.out.println("Product ID: " + productID);
+        System.out.println("Restaurant Name: " + restaurantName);
+        System.out.println("Product Name: " + productName);
+
         this.productID = productID;
 
         // Set the product name
@@ -62,7 +71,8 @@ public class ProductCardController {
         txt_desc.setText(description);
 
         // Set the product image
-        File imageFile = new File(imagePath);
+        String productImagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + restaurantName + "/" + productName + ".png";
+        File imageFile = new File(productImagePath);
         Image productImage;
 
         if (imageFile.exists()) {
@@ -76,6 +86,7 @@ public class ProductCardController {
         //productImage = new Image("file:C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/default_product.png");
 
         img_product_image.setImage(productImage);
+
     }
 
 

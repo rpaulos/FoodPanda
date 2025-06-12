@@ -2,6 +2,10 @@ package Business;
 
 import Database.DatabaseCredentials;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import Business.Class.Product;
 
 public class BusinessDatabaseHandler {
     private static BusinessDatabaseHandler handler = null;
@@ -424,4 +428,100 @@ public class BusinessDatabaseHandler {
         }
         return null;
     }
+
+    // Get products by restaurant ID
+    public static List<Product> getProductsByRestaurantID(String restaurantID) {
+    List<Product> products = new ArrayList<>();
+    String query = "SELECT * FROM product WHERE restaurant_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, restaurantID);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Product product = new Product(
+                rs.getString("product_ID"),
+                rs.getString("restaurant_ID"),
+                rs.getString("product_name"),
+                rs.getString("product_desc"),
+                rs.getInt("product_quantity"),
+                rs.getDouble("product_price"),
+                rs.getString("product_image_path")
+            );
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return products;
+}
+
+    // Update product name by product ID
+    public static boolean updateProductName(String productID, String productName, String productDescription) {
+    String query = "UPDATE product SET product_name = ?, product_desc = ? WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, productName);
+        pstmt.setString(2, productDescription);
+        pstmt.setString(3, productID);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+    public static boolean deleteProductByID(String productID) {
+    String query = "DELETE FROM product WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, productID);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+    public static boolean updateProductQuantity(String productId, int productQuantity) {
+    String query = "UPDATE product SET product_quantity = ? WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setInt(1, productQuantity);
+        pstmt.setString(2, productId);
+        return pstmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+    public static boolean updateProductPrice(String productId, double productPrice) {
+    String query = "UPDATE product SET product_price = ? WHERE product_ID = ?";
+
+    try (Connection conn = getDBConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setDouble(1, productPrice);
+        pstmt.setString(2, productId);
+        return pstmt.executeUpdate() > 0;
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
 }

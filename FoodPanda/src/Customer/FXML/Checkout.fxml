@@ -16,7 +16,7 @@
             <Image url="@../../User%20Interface/Checkout.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_back" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="28.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_back" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#backToCart" prefHeight="26.0" prefWidth="28.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -26,11 +26,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="lbl_restaurantName" layoutX="47.0" layoutY="33.0" prefHeight="12.0" prefWidth="218.0" text="Restaurant Name" wrapText="true">
-         <font>
-            <Font size="9.0" />
-         </font>
-      </Label>
       <Label fx:id="lbl_deliveryAddress" layoutX="48.0" layoutY="73.0" prefHeight="12.0" prefWidth="216.0" text="Delivery Address" wrapText="true">
          <font>
             <Font size="9.0" />

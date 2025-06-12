@@ -49,9 +49,6 @@ public class CheckoutController {
     private Label lbl_deliveryAddress;
 
     @FXML
-    private Label lbl_restaurantName;
-
-    @FXML
     private RadioButton rb_cash;
 
     @FXML
@@ -72,7 +69,6 @@ public class CheckoutController {
     private void setCheckoutDetails() {
         // Set the restaurant name and delivery address from the session
         String restaurantName = CustomerDatabaseHandler.getRestaurantName(CustomerSession.getSelectedRestaurantID());
-        lbl_restaurantName.setText(restaurantName);
         
         String total = CustomerSession.getTotalPrice();
         txt_price.setText(total);
@@ -91,17 +87,18 @@ public class CheckoutController {
         String totalAmount = CustomerSession.getTotalPrice();
         String orderID = CustomerDatabaseHandler.generateOrderID();
 
-        boolean success = CustomerDatabaseHandler.checkoutCart(orderID, customerID, totalAmount);
+        //boolean success = CustomerDatabaseHandler.checkoutCart(orderID, customerID, totalAmount);
 
-        if (success) {
-            System.out.println("Checkout successful!");
-            SwitchScene.switchScene(event, "/Customer/FXML/Receipt.fxml");
-        } else {
-            System.out.println("Checkout failed.");
-            // optionally show alert
-        }
+        SwitchScene.switchScene(event, "/Customer/FXML/Receipt.fxml");
+
+        // if (success) {
+        //     System.out.println("Checkout successful!");
+        //     SwitchScene.switchScene(event, "/Customer/FXML/Receipt.fxml");
+        // } else {
+        //     System.out.println("Checkout failed.");
+        //     // optionally show alert
+        // }
     }
-
 
     @FXML
     void paymentMethod(Desktop.ActionEvent event) {
@@ -174,7 +171,7 @@ public class CheckoutController {
             }
             in.close();
 
-            System.out.println("Raw JSON response: " + response.toString());
+            // System.out.println("Raw JSON response: " + response.toString());
 
             // Parse the JSON response
             JSONObject json = new JSONObject(response.toString());
@@ -210,8 +207,8 @@ public class CheckoutController {
             CustomerSession.setDistance(distance);
             CustomerSession.setDuration(duration + 15);
 
-            System.out.println("Distance: " + distance);
-            System.out.println("Duration: " + duration);
+            // System.out.println("Distance: " + distance);
+            // System.out.println("Duration: " + duration);
             
 
 
@@ -245,6 +242,11 @@ public class CheckoutController {
         String totalPrice = String.valueOf(totalAmount);
 
         CustomerSession.setTotalPrice(totalPrice);
+    }
+
+    @FXML
+    void backToCart(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Cart.fxml");
     }
 
 }

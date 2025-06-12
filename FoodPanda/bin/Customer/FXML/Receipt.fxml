@@ -24,7 +24,7 @@
          </font>
       </Label>
       <Button fx:id="btn_back" layoutX="9.0" layoutY="16.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="38.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="btn_done" layoutX="20.0" layoutY="690.0" mnemonicParsing="false" onAction="#backHome" prefHeight="36.0" prefWidth="302.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="btn_done" layoutX="20.0" layoutY="690.0" mnemonicParsing="false" onAction="#handleCheckout" prefHeight="36.0" prefWidth="302.0" style="-fx-background-color: transparent;" />
       <ScrollPane hbarPolicy="NEVER" layoutX="7.0" layoutY="230.0" prefHeight="331.0" prefWidth="340.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <content>
             <GridPane fx:id="cardGrid" prefHeight="1.0" prefWidth="340.0">
@@ -60,5 +60,6 @@
             <Font name="Arial Black" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="btn_back" layoutX="11.0" layoutY="15.0" mnemonicParsing="false" onAction="#backToCheckout" prefHeight="36.0" prefWidth="32.0" style="-fx-background-color: transparent;" />
    </children>
 </AnchorPane>

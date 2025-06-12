@@ -38,7 +38,7 @@ public class HomeController {
     private Button btn_cart;
 
     @FXML
-    private Button btn_likes;
+    private Button btn_like;
 
     @FXML
     private GridPane cardGrid;
@@ -120,7 +120,7 @@ public class HomeController {
 
                 CardController controller = fxmlLoader.getController();
 
-                System.out.println("Price Range: " + restaurant.getPriceRange());
+                //System.out.println("Price Range: " + restaurant.getPriceRange());
 
                 controller.setData(restaurant.getName(), restaurant.getAddress(), restaurant.getHeaderPath(), restaurant.getRestaurantID(), restaurant.getPriceRange());
 
@@ -150,8 +150,8 @@ public class HomeController {
         SwitchScene.switchScene(event, "/Customer/FXML/Cart.fxml");
     }
 
-    public void toLikesHandler() throws IOException{
-
+    public void toComingSoon(ActionEvent event) throws IOException{
+        SwitchScene.switchScene(event, "/Customer/FXML/ComingSoon.fxml");
     }
 }
 

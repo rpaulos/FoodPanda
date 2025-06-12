@@ -52,11 +52,11 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btn_grocery" layoutX="106.0" layoutY="693.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_grocery" layoutX="106.0" layoutY="693.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btn_search" layoutX="192.0" layoutY="694.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_search" layoutX="192.0" layoutY="694.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -65,5 +65,30 @@
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="btn_orders" layoutX="18.0" layoutY="124.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="61.0" prefWidth="94.0" style="-fx-background-color: transparent;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btn_likes" layoutX="122.0" layoutY="124.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="61.0" prefWidth="94.0" style="-fx-background-color: transparent;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btn_addresses" layoutX="227.0" layoutY="124.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="61.0" prefWidth="94.0" style="-fx-background-color: transparent;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btn_pandapay" layoutX="21.0" layoutY="197.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="34.0" prefWidth="296.0" style="-fx-background-color: transparent;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btn_settings" layoutX="286.0" layoutY="13.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: transparent;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

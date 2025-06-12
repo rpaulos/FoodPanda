@@ -46,6 +46,8 @@ public class CartController {
         lbl_price.setText(totalPrice);
         Customer.CustomerSession.setOrderAmount(totalPrice);
 
+        String restaurant = CustomerDatabaseHandler.getRestaurantName(CustomerSession.getSelectedRestaurantID());
+
         System.out.println("Total Price: " +totalPrice);
 
         String customerID = Customer.CustomerSession.getCustomerID();

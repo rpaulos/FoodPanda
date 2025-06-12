@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import Database.DatabaseHandler;
 import Customer;
 import Business;
-import Admin;
+import Class;
 
 import java.io.IOException;
 

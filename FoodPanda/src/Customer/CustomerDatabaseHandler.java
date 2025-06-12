@@ -386,7 +386,7 @@ public class CustomerDatabaseHandler {
     public static List<ProductItem> getProductItems(String restaurant_ID) {
         List<ProductItem> productItems = new ArrayList<>();
 
-        String query = "SELECT * FROM product where restaurant_ID = ?";
+        String query = "SELECT * FROM product WHERE restaurant_ID = ? AND product_quantity >= 1";
 
         try (Connection conn = DriverManager.getConnection(dburl, userName, password);
             PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -943,7 +943,7 @@ public class CustomerDatabaseHandler {
         }
     }
 
-    public static boolean checkoutCart(String orderID, String customerID, String totalAmount) {
+    public static boolean checkoutCart(String orderID, String customerID, String restaurantID, String totalAmount) {
         Connection conn = getDBConnection();
         PreparedStatement updateStockStmt = null;
         PreparedStatement getCartItemsStmt = null;
@@ -959,7 +959,7 @@ public class CustomerDatabaseHandler {
             getCartItemsStmt.setString(1, customerID);
             ResultSet cartItems = getCartItemsStmt.executeQuery();
 
-            String restaurantID = null;
+            //String restaurantID = null;
 
             // 2. Update product stock
             while (cartItems.next()) {

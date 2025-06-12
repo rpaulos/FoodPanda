@@ -41,8 +41,14 @@ public class CheckoutCardController {
         lbl_productDescription.setText(productDesc);
         lbl_quantity.setText(productQuantity + "×");
 
-        String imagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + productID + ".png";
+        String restaurantID = CustomerSession.getSelectedRestaurantID();
+        String restaurantName = CustomerDatabaseHandler.getRestaurantName(restaurantID);
+
+        String imagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + restaurantName + "/" + productName + ".png";
         File imageFile = new File(imagePath);
+
+        System.out.println("Product ID: " + productID);
+        System.out.println("Restaurant Name: " + restaurantName);
 
         Image productImage;
         if (imageFile.exists()) {

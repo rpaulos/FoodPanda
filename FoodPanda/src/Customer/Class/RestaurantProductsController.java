@@ -26,7 +26,12 @@ import javafx.scene.text.Text;
 import Customer.SwitchScene;
 import java.awt.image.ImageFilter;
 
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class RestaurantProductsController {
+
 
     @FXML
     private Button btn_Search;
@@ -38,7 +43,19 @@ public class RestaurantProductsController {
     private Button btn_backToFood;
 
     @FXML
+    private Button btn_cart;
+
+    @FXML
     private Button btn_food;
+
+    @FXML
+    private Button btn_like;
+
+    @FXML
+    private Button btn_restaurant;
+
+    @FXML
+    private GridPane cardGrid;
 
     @FXML
     private ImageView img_restaurantLogo;
@@ -46,12 +63,17 @@ public class RestaurantProductsController {
     @FXML
     private Label lbl_restaurantName;
 
-    @FXML
-    private GridPane cardGrid;
-
     private Stage stage;
     private Scene scene; 
     private Parent root;
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     public void toProfilePageHandler(ActionEvent event) throws IOException {
@@ -99,7 +121,7 @@ public class RestaurantProductsController {
     private void setRestaurantDetails() {
 
         String restaurantID = CustomerSession.getSelectedRestaurantID();
-        System.out.println("Selected Restaurant ID: " + restaurantID);
+        //System.out.println("Selected Restaurant ID: " + restaurantID);
 
         // Set the restaurant name
         String restaurantName = CustomerDatabaseHandler.getRestaurantName(restaurantID);
@@ -118,6 +140,16 @@ public class RestaurantProductsController {
         }
 
         img_restaurantLogo.setImage(restaurantLogoImage);
+    }
+
+    @FXML
+    public void toComingSoon(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/ComingSoon.fxml");
+    }
+
+    @FXML
+    public void toCart(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Customer/FXML/Cart.fxml");
     }
 
 }

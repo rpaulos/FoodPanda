@@ -1,5 +1,6 @@
 package Customer.Class;
 
+import Business.SwitchScene;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -20,6 +21,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class StartUpController {
+
+    @FXML
+    private Button btn_back;
+
     @FXML
     private Button loginWithFacebookButton;
 
@@ -32,6 +37,20 @@ public class StartUpController {
     private Stage stage;
     private Scene scene; 
     private Parent root;
+
+    //private Button signUpWithEmailButton;
+
+    @FXML
+    void backToLandingPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/LandingPage.fxml"));
+
+        root = loader.load();
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     public void toLoginWithGooglePageHandler(ActionEvent event) throws IOException{

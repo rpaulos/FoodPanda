@@ -48,10 +48,5 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <Label fx:id="lbl_restaurantName" layoutX="46.0" layoutY="32.0" text="Label">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

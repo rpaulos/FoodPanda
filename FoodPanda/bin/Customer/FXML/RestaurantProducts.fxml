@@ -53,12 +53,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="252.0" layoutY="19.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_like" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="293.0" layoutY="19.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_cart" layoutX="293.0" layoutY="19.0" mnemonicParsing="false" onAction="#toCart" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -68,12 +68,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btn_Search" layoutX="190.0" layoutY="694.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="46.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_Search" layoutX="190.0" layoutY="694.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="46.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="103.0" layoutY="693.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="46.0" style="-fx-background-color: transparent;">
+      <Button fx:id="btn_restaurant" layoutX="103.0" layoutY="693.0" mnemonicParsing="false" onAction="#toComingSoon" prefHeight="40.0" prefWidth="46.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
