@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
+import Admin.Class.OrderRow;
 import Customer.Class.CartItem;
 import Customer.Class.ProductCardController;
 import Customer.Class.ProductItem;
@@ -1435,6 +1436,57 @@ public class CustomerDatabaseHandler {
         }
     }
 
+    public static List<OrderRow> getOrdersByCustomerID(String customerID) {
+    List<OrderRow> orders = new ArrayList<>();
+    String query = "SELECT order_ID, customer_ID, restaurant_ID, amount FROM orders WHERE customer_ID = ?";
+
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                OrderRow order = new OrderRow(
+                    rs.getString("order_ID"),
+                    rs.getString("customer_ID"),
+                    rs.getString("restaurant_ID"),
+                    rs.getDouble("amount")
+                );
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
+    public static List<OrderRow> getOrdersByRestaurantID(String restaurantID) {
+    List<OrderRow> orders = new ArrayList<>();
+    String query = "SELECT order_ID, customer_ID, restaurant_ID, amount FROM orders WHERE restaurant_ID = ?";
+
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                OrderRow order = new OrderRow(
+                    rs.getString("order_ID"),
+                    rs.getString("customer_ID"),
+                    rs.getString("restaurant_ID"),
+                    rs.getDouble("amount")
+                );
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
 
     // public static List<RestaurantItem> getFilteredRestaurants(String priceRange) {
     //     List<RestaurantItem> restaurantItems = new ArrayList<>();

@@ -13,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -50,6 +52,8 @@ import Customer.SwitchScene;
 import java.awt.image.ImageFilter;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 public class AdminController {
@@ -73,13 +77,28 @@ public class AdminController {
     private Button bttOD_search;
 
     @FXML
-    private TableColumn<?, ?> colCD_amount;
+    private TableColumn<OrderRow, Double> colCD_amount;
 
     @FXML
-    private TableColumn<?, ?> colCD_orderID;
+    private TableColumn<OrderRow, String> colCD_orderID;
 
     @FXML
-    private TableColumn<?, ?> coldCD_restaurantID;
+    private TableColumn<OrderRow, String> colCD_restaurantID;
+
+    @FXML
+    private TableColumn<OrderRow, Double> colPD_amount;
+
+    @FXML
+    private TableColumn<OrderRow, String> colPD_customerID;
+
+    @FXML
+    private TableColumn<OrderRow, String> colPD_orderID;
+
+    @FXML
+    private TableView<OrderRow> tableCD;
+
+    @FXML
+    private TableView<OrderRow> tablePD;
 
     @FXML
     private AnchorPane gridView;
@@ -160,8 +179,13 @@ public class AdminController {
 
 
     public void initialize() {
+        colCD_orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+        colCD_restaurantID.setCellValueFactory(new PropertyValueFactory<>("restaurantID"));
+        colCD_amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
-        
+        colPD_orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+        colPD_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        colPD_amount.setCellValueFactory(new PropertyValueFactory<>("amount"));    
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
@@ -230,6 +254,11 @@ public class AdminController {
         tfCD_firstName.clear();
         tfCD_lastName.clear();
         tfCD_phoneNumber.clear();
+
+        List<OrderRow> orderData = CustomerDatabaseHandler.getOrdersByCustomerID(customerID);
+        ObservableList<OrderRow> data = FXCollections.observableArrayList(orderData);
+        tableCD.setItems(data);
+
     }
 
     @FXML
@@ -322,6 +351,11 @@ public class AdminController {
         tfOD_businessOwnerID.clear();
         tfOD_firstName.clear();
         tfOD_lastName.clear();
+
+        List<OrderRow> orderData = CustomerDatabaseHandler.getOrdersByRestaurantID(restaurantID);
+        ObservableList<OrderRow> data = FXCollections.observableArrayList(orderData);
+        tablePD.setItems(data);
+
     }
     
     @FXML

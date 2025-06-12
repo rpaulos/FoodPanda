@@ -8,7 +8,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.Class.BusinessEditStockController">
    <children>
       <ImageView fitHeight="740.0" fitWidth="340.0" pickOnBounds="true" preserveRatio="true">
@@ -18,9 +17,9 @@
       </ImageView>
       <TableView fx:id="tbl_stockView" layoutX="23.0" layoutY="114.0" prefHeight="290.0" prefWidth="294.0">
          <columns>
-            <TableColumn fx:id="col_stockproductId" prefWidth="77.59997749328613" text="Product ID" />
-            <TableColumn fx:id="col_stockproductName" prefWidth="107.20000457763672" text="Product Name" />
-            <TableColumn fx:id="col_productQuantity" prefWidth="111.20001220703125" text="Product Quantity" />
+            <TableColumn fx:id="col_stockproductId" prefWidth="77.59997749328613" style="-fx-alignment: center;" text="Product ID" />
+            <TableColumn fx:id="col_stockproductName" prefWidth="107.20000457763672" style="-fx-alignment: center;" text="Product Name" />
+            <TableColumn fx:id="col_productQuantity" prefWidth="111.20001220703125" style="-fx-alignment: center;" text="Product Quantity" />
          </columns>
       </TableView>
       <Button fx:id="btn_sreturntoProfile" layoutX="13.0" layoutY="12.0" mnemonicParsing="false" onAction="#toReturntoProfilePageStockHandler" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: transparent;" />
