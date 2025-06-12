@@ -71,8 +71,9 @@ public class ProductCardController {
         txt_desc.setText(description);
 
         // Set the product image
-        String productImagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + restaurantName + "/" + productName + ".png";
-        File imageFile = new File(productImagePath);
+        File imageFile = new File(imagePath);
+        //String productImagePath = "C:/Users/Rae/Desktop/FoodPanda/FoodPanda/src/User Interface/Restaurant Products/" + restaurantName + "/" + productName + ".png";
+        //File imageFile = new File(productImagePath);
         Image productImage;
 
         if (imageFile.exists()) {

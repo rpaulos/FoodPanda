@@ -1,12 +1,57 @@
 package Admin.Class;
 
+import Customer.CustomerDatabaseHandler;
+import Customer.CustomerSession;
+import Customer.Class.ProductCardController;
+import Customer.Class.ProductItem;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
+import java.util.List;
+
+import Customer.CustomerDatabaseHandler;
+
+import java.io.File;
+import java.io.IOException;
+import Customer.CustomerSession;
+import java.util.List;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import java.util.Collections;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+
+import Customer.SwitchScene;
+import java.awt.image.ImageFilter;
+
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 public class AdminController {
 
     @FXML
@@ -64,6 +109,9 @@ public class AdminController {
     private Label lblOD_businessOwnerID;
 
     @FXML
+    private Label lblOD_restaurantID;
+
+    @FXML
     private Label lblOD_businessOwnerName;
 
     @FXML
@@ -99,4 +147,325 @@ public class AdminController {
     @FXML
     private TextField tfPD_restaurantID;
 
+    @FXML
+    private GridPane cardGrid;
+
+    private Stage stage;
+    private Scene scene; 
+    private Parent root;
+
+    private static String customerID;
+    private static String restaurantID;
+
+
+
+    public void initialize() {
+
+        
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
+// --------------------------------------------------------------------------------------------------- //
+    
+    @FXML
+    public String CD_search(ActionEvent event) throws IOException {
+        // get the customerID from tfCD_customerID
+        customerID = tfCD_customerID.getText().trim();
+
+        if (customerID.isEmpty()) {
+            System.out.println("CustomerID cannot be empty.");
+            return null;
+        }
+
+        if (customerID == "/all") {
+            // call method to show all transaction history
+        }
+
+        if (CustomerDatabaseHandler.validateCustomerID(customerID)) {
+            System.out.println("Customer exists");
+            CD_setCustomerDetails(customerID);
+            return customerID;
+        } else {
+            System.out.println("Customer does not exist");
+            return null;
+        }
+    }
+
+    @FXML
+    void CD_setCustomerDetails(String customerID) {
+        // set lblCD_name
+        String CD_first_name = CustomerDatabaseHandler.getFirstNamebyID(customerID);
+        String CD_last_name = CustomerDatabaseHandler.getLastNamebyID(customerID);
+        String CD_full_name = CD_first_name + " " + CD_last_name;
+        lblCD_name.setText(CD_full_name);
+
+        // set lblCD_customerID
+        lblCD_customerID.setText(customerID);
+
+        // set lblCD_email
+        String CD_email = CustomerDatabaseHandler.getCustomerEmail(customerID);
+        lblCD_email.setText(CD_email);
+
+        // set lblCD_phoneNumber
+        String CD_phoneNumber = CustomerDatabaseHandler.getCustomerPhoneNumber(customerID);
+        lblCD_phoneNumber.setText(CD_phoneNumber);
+
+        // set lblCD_totalSpent
+        String CD_totalSpent = CustomerDatabaseHandler.getCustomerTotalSpent(customerID);
+        if (CD_totalSpent == null) {
+            lblCD_totalSpent.setText("0.00");
+        } else {
+            lblCD_totalSpent.setText(CD_totalSpent);
+        }
+
+        tfCD_customerID.clear();
+        tfCD_firstName.clear();
+        tfCD_lastName.clear();
+        tfCD_phoneNumber.clear();
+    }
+
+    @FXML
+    void CD_delete() throws IOException {
+        // Get the customer ID from the text field
+        String customerID = tfCD_customerID.getText().trim();
+
+        // Step 2: Confirm it's not empty
+        if (customerID.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Customer ID is required.");
+            return;
+        }
+
+        // confirmation dialog
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Delete");
+        confirmAlert.setHeaderText("Are you sure you want to delete this customer?");
+        confirmAlert.setContentText("This will also delete all related orders, wallet, and data.");
+
+        if (confirmAlert.showAndWait().get() != ButtonType.OK) {
+            return;
+        }
+
+        // Call the database handler to delete
+        boolean success = CustomerDatabaseHandler.deleteCustomerByID(customerID);
+
+        // Step 5: Give feedback
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Customer and related data deleted successfully.");
+            tfCD_customerID.clear();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Failed", "Customer does not exist.");
+        }
+    }
+
+// --------------------------------------------------------------------------------------------------- //
+
+    @FXML
+    public String OD_search(ActionEvent event) throws IOException {
+        // get the tfOD_restaurantID
+        restaurantID = tfOD_restaurantID.getText().trim();
+
+        if (restaurantID.isEmpty()) {
+            System.out.println("restaurantID cannot be empty.");
+            return null;
+        }
+
+        if (CustomerDatabaseHandler.validateRestaurantID(restaurantID)) {
+            System.out.println("Restaurant exists");
+            OD_setBusinessOwnerDetails(restaurantID);
+            return customerID;
+        } else {
+            System.out.println("Restaurant does not exist");
+            return null;
+        }
+    }
+
+    @FXML
+    void OD_setBusinessOwnerDetails(String restaurantID) {
+        // set lblOD_businessOwnerName
+        String OD_first_name = CustomerDatabaseHandler.getBusinessOwnerFirstNameByID(restaurantID);
+        String OD_last_name = CustomerDatabaseHandler.getBusinessOwnerLastNameByID(restaurantID);
+        String OD_full_name = OD_first_name + " " + OD_last_name;
+        lblOD_businessOwnerName.setText(OD_full_name);
+
+        // set lblOD_restaurantID
+        lblOD_restaurantID.setText(restaurantID);
+
+        // set lblOD_businessName
+        String OD_businessName = CustomerDatabaseHandler.getBusinessName(restaurantID);
+        lblOD_businessName.setText(OD_businessName);
+
+        // set lblOD_businessOwnerID
+        String OD_businessOwnerID = CustomerDatabaseHandler.getbusinessOwnerID(restaurantID);
+        lblOD_businessOwnerID.setText(OD_businessOwnerID);
+
+        // set lblOD_businessOwnerEmail 
+        String OD_email = CustomerDatabaseHandler.getBusinessOwnerEmail(OD_businessOwnerID);
+        lblOD_businessOwnerEmail.setText(OD_email);
+
+        // set lblOD_totalEarned
+        String OD_totalSpent = CustomerDatabaseHandler.getRestaurantEarnings(restaurantID);
+        if (OD_totalSpent == null) {
+            lblOD_totalEarned.setText("0.00");
+        } else {
+            lblOD_totalEarned.setText(OD_totalSpent);
+        }
+
+        tfOD_restaurantID.clear();
+        tfOD_businessOwnerID.clear();
+        tfOD_firstName.clear();
+        tfOD_lastName.clear();
+    }
+    
+    @FXML
+    void OD_delete() throws IOException {
+        // Get the restaurant ID from the text field
+        String restaurantID = tfOD_restaurantID.getText();
+
+        // Confirm it's not empty
+        if (restaurantID == null || restaurantID.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Restaurant ID is required.");
+            return;
+        }
+
+        // Optional confirmation dialog
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Delete");
+        confirmAlert.setHeaderText("Are you sure you want to delete this restaurant?");
+        confirmAlert.setContentText("This will also delete all related products, business owner, and wallet.");
+        
+        if (confirmAlert.showAndWait().get() != ButtonType.OK) {
+            return;
+        }
+
+        // all the database handler to delete
+        boolean success = CustomerDatabaseHandler.deleteRestaurantByID(restaurantID);
+
+        // Give feedback
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Restaurant and related data deleted successfully.");
+            tfOD_restaurantID.clear();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Failed", "Restaurant Does Not Exist.");
+        }
+    }
+
+// --------------------------------------------------------------------------------------------------- //
+
+    @FXML
+    public void loadData(ActionEvent event) throws IOException {
+        // get the restaurantID from the tfPD_restaurantID
+
+        restaurantID = tfPD_restaurantID.getText().trim();
+        
+        if (restaurantID.equals("/all")) {
+            loadAllData(event);
+            return;
+        }
+
+        cardGrid.getChildren().clear();
+        cardGrid.getRowConstraints().clear();
+        cardGrid.getColumnConstraints().clear();
+
+        int columns = 2;
+        int col = 0;
+        int rows = 0;
+
+        try {
+            List<ProductItem> productItems = CustomerDatabaseHandler.getAllProductsInRestaurant(restaurantID);
+            for (ProductItem product : productItems) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
+                AnchorPane card = fxmlLoader.load();
+
+                ProductCardController controller = fxmlLoader.getController();
+                controller.setData(product.getProductID(), product.getProductName(), product.getProductPrice(), product.getProductDescription(), product.getProductImagePath());
+
+                cardGrid.add(card, col, rows);
+                col++;
+                if (col == columns) {
+                    col = 0;
+                    rows++;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void loadAllData(ActionEvent event) throws IOException {
+
+        restaurantID = "all";
+
+        cardGrid.getChildren().clear();
+        cardGrid.getRowConstraints().clear();
+        cardGrid.getColumnConstraints().clear();
+
+        int columns = 2;
+        int col = 0;
+        int rows = 0;
+
+        try {
+            List<ProductItem> productItems = CustomerDatabaseHandler.getAllProducts();
+            for (ProductItem product : productItems) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Customer/FXML/ProductCard.fxml"));
+                AnchorPane card = fxmlLoader.load();
+
+                ProductCardController controller = fxmlLoader.getController();
+                controller.setData(product.getProductID(), product.getProductName(), product.getProductPrice(), product.getProductDescription(), product.getProductImagePath());
+
+                cardGrid.add(card, col, rows);
+                col++;
+                if (col == columns) {
+                    col = 0;
+                    rows++;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    public void PD_delete() throws IOException {
+        // Get the product ID from the text field
+        String productID = tfPD_productID.getText();
+
+        // Confirm it's not empty
+        if (productID == null || productID.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Food name is required.");
+            return;
+        }
+
+        // Optional confirmation dialog
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Delete");
+        confirmAlert.setHeaderText("Are you sure you want to delete this product?");
+        confirmAlert.setContentText("This will permanently remove the product from the database.");
+
+        if (confirmAlert.showAndWait().get() != ButtonType.OK) {
+            return;
+        }
+
+        // Call the database handler to delete the product
+        boolean success = CustomerDatabaseHandler.deleteProductByID(productID);
+
+        // Give feedback
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Product deleted successfully.");
+            tfPD_productID.clear();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Failed", "Product does not exist.");
+        }
+    }
 }

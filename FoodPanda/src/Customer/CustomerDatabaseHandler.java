@@ -126,6 +126,54 @@ public class CustomerDatabaseHandler {
         return false;
     }
 
+    // Checks if customerID exists
+    public static boolean validateCustomerID(String customerID) {
+        getInstance();
+
+        String query = "SELECT * FROM customer WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error validating credentials: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Checks if restaurantID exists
+    public static boolean validateRestaurantID(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT * FROM restaurant WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error validating credentials: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // Checks if phone number exists in the database
     public static boolean phoneNumberExists(String phoneNumber) {
         getInstance();
@@ -282,6 +330,108 @@ public class CustomerDatabaseHandler {
         }
     }
 
+    public static String getbusinessOwnerID(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT business_owner_ID FROM business_owner WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("business_owner_ID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting business owner ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBusinessOwnerEmail(String businessOwnerID) {
+        getInstance();
+
+        String query = "SELECT owner_email FROM business_owner WHERE business_owner_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, businessOwnerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("owner_email");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting business owner email: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBusinessName(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT restaurant_name FROM restaurant WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("restaurant_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting restaurant name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean deleteRestaurantByID(String restaurantID) {
+        String query = "DELETE FROM restaurant WHERE restaurant_ID = ?";
+        try (Connection conn = getDBConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, restaurantID);
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return false;
+
+        }
+    }
+
+    public static boolean deleteCustomerByID(String customerID) {
+        String query = "DELETE FROM customer WHERE customer_ID = ?";
+        try (Connection conn = getDBConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, customerID);
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return false;
+            
+        }
+    }
+
     public static String getFirstName(String email) {
         getInstance();
 
@@ -295,6 +445,50 @@ public class CustomerDatabaseHandler {
 
             if (result.next()) {
                 return result.getString("customer_first_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting first name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static String getFirstNamebyID(String customerID) {
+        getInstance();
+
+        String query = "SELECT customer_first_name FROM customer WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_first_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting first name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBusinessOwnerFirstNameByID(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT owner_first_name FROM business_owner WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("owner_first_name");
             }
 
         } catch (SQLException e) {
@@ -324,6 +518,138 @@ public class CustomerDatabaseHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getLastNamebyID(String customerID) {
+        getInstance();
+
+        String query = "SELECT customer_last_name FROM customer WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_last_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting first name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBusinessOwnerLastNameByID(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT owner_last_name FROM business_owner WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("owner_last_name");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting last name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getCustomerEmail(String customerID) {
+        getInstance();
+
+        String query = "SELECT customer_email FROM customer WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_email");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting  email: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getCustomerPhoneNumber(String customerID) {
+        getInstance();
+
+        String query = "SELECT customer_phone_number FROM customer WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("customer_phone_number");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting phone number: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getCustomerTotalSpent(String customerID) {
+        getInstance();
+
+        String query = "SELECT SUM(amount) AS total_amount FROM orders WHERE customer_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, customerID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("total_amount");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting amount: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "0.00";
+    }
+
+    public static String getRestaurantEarnings(String restaurantID) {
+        getInstance();
+
+        String query = "SELECT SUM(amount) AS total_amount FROM orders WHERE restaurant_ID = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurantID);
+            ResultSet result = pstmt.executeQuery();
+
+            if (result.next()) {
+                return result.getString("total_amount");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error getting amount: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "0.00";
     }
 
     public static List<RestaurantItem> getRestaurantItems() {
@@ -392,6 +718,58 @@ public class CustomerDatabaseHandler {
             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, restaurant_ID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String id = rs.getString("product_ID");
+                    String name = rs.getString("product_name");
+                    String price = String.format("%.2f", rs.getDouble("product_price"));
+                    String description = rs.getString("product_desc");
+                    String imagePath = rs.getString("product_image_path");
+                    productItems.add(new ProductItem(id, name, price, description, imagePath));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productItems;
+    }
+
+    public static List<ProductItem> getAllProductsInRestaurant(String restaurant_ID) {
+        List<ProductItem> productItems = new ArrayList<>();
+
+        String query = "SELECT * FROM product WHERE restaurant_ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, restaurant_ID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String id = rs.getString("product_ID");
+                    String name = rs.getString("product_name");
+                    String price = String.format("%.2f", rs.getDouble("product_price"));
+                    String description = rs.getString("product_desc");
+                    String imagePath = rs.getString("product_image_path");
+                    productItems.add(new ProductItem(id, name, price, description, imagePath));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productItems;
+    }
+
+    public static List<ProductItem> getAllProducts() {
+        List<ProductItem> productItems = new ArrayList<>();
+
+        String query = "SELECT * FROM product";
+
+        try (Connection conn = DriverManager.getConnection(dburl, userName, password);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -1038,6 +1416,23 @@ public class CustomerDatabaseHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean deleteProductByID(String productID) {
+        String query = "DELETE FROM product WHERE product_name = ?";
+        
+        try (Connection conn = getDBConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, productID);
+            int affectedRows = pstmt.executeUpdate();
+
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

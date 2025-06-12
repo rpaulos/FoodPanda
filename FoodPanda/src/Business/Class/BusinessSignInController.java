@@ -50,6 +50,10 @@ public class BusinessSignInController {
             return;
         }
 
+        if (email.equals("admin")) {
+            adminSignIn(event);
+        }
+
         if (BusinessDatabaseHandler.validateBusinessOwnerLogin(email, password)) {
             System.out.println("Login successful!");
 
@@ -60,5 +64,9 @@ public class BusinessSignInController {
         } else {
             System.out.println("Login failed! Invalid email or password.");
         }
+    }
+
+    void adminSignIn(ActionEvent event) throws IOException {
+        SwitchScene.switchScene(event, "/Admin/FXML/Admin.fxml");
     }
 }
