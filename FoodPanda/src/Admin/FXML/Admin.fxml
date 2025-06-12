@@ -87,7 +87,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="246.0" layoutY="202.0" prefHeight="319.0" prefWidth="482.0">
+                        <TableView fx:id="tableCD" layoutX="246.0" layoutY="202.0" prefHeight="319.0" prefWidth="482.0">
                           <columns>
                             <TableColumn fx:id="colCD_orderID" prefWidth="99.20001220703125" text="order_ID" />
                             <TableColumn fx:id="coldCD_restaurantID" prefWidth="192.800048828125" text="restaurant_ID" />
@@ -177,7 +177,7 @@
                               <Font name="Arial" size="15.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="248.0" layoutY="206.0" prefHeight="319.0" prefWidth="483.0">
+                        <TableView fx:id="tableOD" layoutX="248.0" layoutY="206.0" prefHeight="319.0" prefWidth="483.0">
                           <columns>
                             <TableColumn fx:id="colPD_orderID" prefWidth="116.800048828125" text="order_ID" />
                             <TableColumn fx:id="colPD_customerID" prefWidth="182.39996337890625" text="customer_ID" />
